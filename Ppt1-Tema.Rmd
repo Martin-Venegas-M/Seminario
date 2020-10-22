@@ -1,0 +1,84 @@
+---
+title: "_Determinantes del cambio en las justificaciones de violencia_"
+subtitle: "Propuesta de tema para Seminario de Grado"  
+author: "Martín Venegas M"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class: center, middle
+
+# _Coloquio de investigación en desigualdad y ciudadanía - 2do Sem 2020_
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo(primary_color = "#1F4257", secondary_color = "#F97B64")
+
+```
+---
+class: inverse, center, middle
+
+# Estructura de presentación
+
+--
+
+1. Contexto y motivación
+2. Antecedentes: algunas nociones
+3. Concepto principal y tipo de estudio
+4. Pregunta y predictores
+5. Método y datos
+6. A discutir
+
+---
+# 1. Contexto y motivación
+
+--
+
+## 1.1 Contexto
+Si bien la violencia ha sido muchas veces parte del debate publico (tanto por delicuencia como por protestas), es desde el **Estallido Social** que se torna un tema mediaticamente constante. Especialmente a raíz de la **radicalización de la protesta**, **las violaciones a derechos humanos** y la **brutalidad policial**.
+
+--
+
+## 1.2 Motivaciones
+
+- *Personal*: tema de constante discusión en mis redes cercanas
+- *Academica*: me da la impresión que el trabajo empírico en el tema podría ser una contribución
+- *Formación*: aprender técnicas nuevas y usar datos recientes
+
+---
+# 2. Antecedentes: algunas nociones
+
+--
+
+---
+#  3. Concepto principal y tipo de estudio
+
+--
+
+### Concepto principal: 
+*Justificaciones de violencia*
+
+--
+
+### Tipo de estudio:
+- Exploratorio
+- Cuantitativo con datos secundarios
+- Longitudinal
+
+---
+# 4. Pregunta y predictores
+
+--
+
+### ¿Cuáles son los factores que han influenciado los cambios en las justificaciones de justicia entre el 2016 y 2019?
+
+
