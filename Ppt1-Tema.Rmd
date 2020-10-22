@@ -66,8 +66,45 @@ class: inverse, middle, center
 
 # 2. Antecedentes: algunas nociones
 
-`r Citet(myBib, c("Willems2020"))`
 ---
+### COES (2020): 
+
+- El 2016 el 65% de los encuestados señalaba que **nunca se justifica** que carabineros use la fuerza para reprimir una marcha pacifica, esa cifra se eleva a 79% en 2019 (post-estallido)
+
+- El 2016 el 59% de los encuestados señalaba que se **justifica a veces o siempre** que carabineros desaloje a la fuerza una toma estudiantil, esta cifra desciende a 37,4% en 2019.
+
+- El 2016 el 81,2% de los encuestados señalaba que **nunca se justifica** que estudiantes tiren piedras a carabinero en marchas por la educación, esa cifra desciende a 73.2% el 2019.
+
+---
+
+### Gerber y Puga (2016):
+
+- "La justificación de la violencia contra personas que han cometido delitos tiende a ser mayor entre personas que no se identifican con ninguna posición política y aquellas personas que se identifican con la derecha" (p.6)
+
+- "[S]e pbserva un mayor apoyo a los linchamientos y a la represión policial entre personas de nivel socio-económico medio-alto" (p.6)
+
+- Las personas que apoyan la represión policial y los linchamientos están motivados por la *dimensión de poder*, es decir, "poner al delincuente en su lugar"
+
+- Con respecto a la justificación de represión policial, esta se encuentra motivada por un sentido de justicia.
+
+- "Las personas que justifican los castigos penales legales buscan sobre todo aumentar la unidad entre las personas y reafirmar los valores de la comunidad" (p.8)
+
+---
+
+### Gerber y Jackson (2016)
+
+- La legitimidad a la policia es un predictor positivo al uso razonable de la fuerza por parte de la policía, pero no del uso de la fuerza excesiva
+
+- La ideología política da soporte al uso excesivo de la fuerza policial, pero no al uso razonable de la fuerza policial.
+
+---
+
+### Gerber et al. (2018)
+
+- Percepciones altas de justicia procesal en población indigena predice mayor apoyo a la violencia procesal y menos apoyo a la violencia ejercida por activistas indigenas.
+
+- Los efectos anteriores se encuentran mediados por la legitimidad que tiene la policía, y moderados por la identificación a un grupo minoritario.
+
 class: inverse, middle, center
 
 #  3. Concepto principal y tipo de estudio
@@ -142,6 +179,9 @@ Estudio Longitudinal Social de Chile (ELSOC) 2016-2019 (4 olas, se verá incluir
 _**Nota:** Medición a través de media simple para cada concepto y par de items._
 
 <img src="img.png">
+---
+
+<img src="img2.png">
 
 ---
 ## 5.2 Variables
@@ -153,7 +193,7 @@ _**Nota:** Medición a través de media simple para cada concepto y par de items
 
 - *Orientación hacia la dominación social* (SDO, por sus siglas en inglés) y *Autoritarismo de derecha* (RWA, por sus siglas en inglés) (C18 y ¿C32?)
 - **Sentido de (in)justicia** (M13 y M15)
-- Sentido de justicia procesual en el actuar de la policía (no estoy seguro si está en los datos, ver batería 2019)
+- Sentido de justicia procesal en el actuar de la policía (no estoy seguro si está en los datos, ver batería 2019)
 
 --
 
@@ -184,7 +224,11 @@ _**Nota:** Medición a través de media simple para cada concepto y par de items
 - Pueblos indigenas (M53)
 ---
 ### Método de análisis longitudinal
-Cross-Laged Panel Analysis
+Cross-Laged Panel Analysis: permite analizar relaciones reciprocas, o influencias direccionales entre variables durante el tiempo. En detalle **permite examinar influencias causales entre variables**, comparando la relación entre la *Variable X* en un *Tiempo 1* y la *Variable Y* en un *Tiempo 2* con la relación entre la *Variable Y* en un *Tiempo 1* y la *Variable X* en un *Tiempo 2* (Kearney, s.f)
+
+**Por ejemplo:** Compara la relación entre *posición política* en 2016 y *justificación de violencia por el cambio social* el *2019* con la relación entre *justificación de violencia por el cambio social* en 2016 y la *posición política* el 2019
+
+En suma, permite conocer mejor como las variables se influencia entre sí a lo largo del tiempo.
 
 ### Método de análisis transversal
 Regresión lineal múltiple (o logistica dependiendo del tratamiento)
@@ -215,6 +259,16 @@ En especial desde la psicología, que es donde se ha trabajado bastante.
 
 ### ¿Interacciones o mediaciones?
 Ideas sobre interacciones o mediaciones que puedan ser necesarias incluir en la propuesta e hipotesis
+
+---
+# Referencias
+Gerber, M & Puga, I. Control Social y Justificación de la Violencia en Chile. Resultados Encuesta Nacional UDP 2015. DOCUMENTO DE TRABAJO ICSO – N° 22 / 2016 Serie Encuesta Nacional UDP
+
+Gerber, M., & Jackson, J. (2016). Justifying violence: Legitimacy, ideology and public support for police use of force. Psychology, Crime & Law, 23(1), 79-95. Disponible con DOI: 10.1080/1068316x.2016.1220556
+
+Gerber, Monica, González, Roberto, Carvacho, Héctor, Jiménez-Moya, Gloria, Jackson, Jonathan. (2017).On the justification of intergroup violence: The roles of procedural justice, police legitimacy and group identity in attitudes towards violence among indigenous people Psychology of Violence ISSN 2152-0828.
+
+Kearney, M (s.f). Cross-Lagged Panel Analysis
 
 ---
 class: inverse, middle, center
