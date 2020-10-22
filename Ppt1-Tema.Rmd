@@ -246,7 +246,7 @@ Permite analizar relaciones reciprocas, o influencias direccionales entre variab
 
 **Por ejemplo:** Compara la relación entre *posición política* en 2016 y *justificación de violencia por el cambio social* el *2019* con la relación entre *justificación de violencia por el cambio social* en 2016 y la *posición política* el 2019
 
-En suma, permite conocer mejor como las variables se influencia entre sí a lo largo del tiempo.
+En suma, permite conocer mejor como las variables se influencian entre sí a lo largo del tiempo.
 
 --
 
