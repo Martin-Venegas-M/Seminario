@@ -105,6 +105,7 @@ class: inverse, middle, center
 
 - Los efectos anteriores se encuentran mediados por la legitimidad que tiene la policía, y moderados por la identificación a un grupo minoritario.
 
+---
 class: inverse, middle, center
 
 #  3. Concepto principal y tipo de estudio
