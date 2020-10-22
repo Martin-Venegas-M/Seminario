@@ -5,6 +5,7 @@ navbar:
   left:
   - text: "Presentación de propuesta para Seminario de Grado"
     href: Ppt1-Tema.html
+output:
   html_document:
     theme: yeti # yeti  spacelab simplex sandstone cosmo cerulean paper darkly flatly lumen readable
     css: 'styles.css'
