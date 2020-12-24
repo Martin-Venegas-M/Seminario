@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>SEM-Bitacora-RL.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Seminario documents</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="presentations/ppt1-oct2020/Ppt1-Tema.html">Presentación de propuesta para Seminario de Grado</a>
+</li>
+<li>
+  <a href="presentations/ppt2-dic2020/ppt2.html">Presentación avances Seminario de Grado</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="bitacora-de-revisión-de-literatura" class="section level1">
+<h1>Bitacora de revisión de literatura</h1>
+<div id="día-1-17-10-2020-a-las-1400-hrs" class="section level2">
+<h2>Día 1: 17-10-2020 a las 14:00 hrs</h2>
+<p>Comienzo buscando en ISI - WOS con la palabra <em>violence</em>. Busco por topico, no he añadido ningun otro tipo de filtro. Obtengo <strong>135.065</strong> mil resultados.</p>
+<p><strong>Guardo:</strong> <em>Predicting school violence: A comparison of violent and nonviolent male students on attitudes toward violence, exposure level to violence, and PTSD symptomatology</em></p>
+<p><strong>Guardo:</strong> <em>The anatomy of violence: A study of the literature</em></p>
+<p><strong>Guardo:</strong> <em>Where do they learn violence? The roles of three forms of violent socialization in childhood</em></p>
+<p><strong>Guardo:</strong> <em>Sanctioned Violence in the New Testament</em></p>
+<p><strong>Guardo:</strong> <em>Does Movie or Video Game Violence Predict Societal Violence? It Depends on What You Look at and When</em></p>
+<p><strong>Guardo:</strong> <em>An Overview of Criminological Research on Violence in Slovenia Since 1991</em></p>
+<p><strong>Guardo:</strong> <em>Mainstreaming domestic and gender-based violence into sociology and the criminology of violence</em></p>
+<p>Creo haber encontrado una primera revista que merece ser revisada con más detalle: <strong>AGRESSION AND VIOLENT BEHAVIOR</strong>. Es Q2 en Psicología Multidisciplinaria y Crimenología.</p>
+<p><strong>Guardo:</strong> <em>Trivializing violence: Marginalized youth narrating everyday violence</em></p>
+<p>Creo haber encontrado una segunda revista que merece ser revisada con más detalle: <strong>TRAUMA, VIOLENCE &amp; ABUSE</strong>. Es Q1 en Trabajo Social, Estudios de Familia y Crimenología.</p>
+<p><strong>Guardo:</strong> <em>The attitudes towards violence scale - A measure for adolescents</em></p>
+<p>Nota: creo que una de las dimensiones de la escala puede ser utiles para justificaciones de violencia.</p>
+<p>Voy en la página 3 de 2000 con 50 papers por pagina, y ya noto que el foco está en psicología, familia y genero. Algunos de los conceptos que he encontrado a simple vista:</p>
+<ul>
+<li>Exposición a la violencia</li>
+<li>Violencia interpersonal</li>
+<li>Violencia de genero</li>
+<li>Violencia sexual</li>
+<li>Violencia en la pareja (partner and dating)</li>
+<li></li>
+</ul>
+<p><strong>Guardo:</strong> <em>RESEARCH AND POLICY DIRECTIONS IN VIOLENCE - A DEVELOPMENTAL PERSPECTIVE</em></p>
+<p>Nota: tiene 2 citas en WOS y es de 1995.</p>
+<p>Otra revista que puede merecer ser revisada con más detalle es: <strong>TERRORISM AND POLITICAL VIOLENCE</strong>. Es Q2 en Relaciones Internacionales y Ciencia Política.</p>
+<p><strong>Guardo:</strong> <em>On the Politicization of Violence Within Reductive and Non-reductive Accounts of Violence</em></p>
+<p><strong>Guardo:</strong> <em>Law and Violence</em></p>
+<p>Nota personal: me vi interrumpido dos veces en la busqueda por reuniones, además me detuve a las 6 por cumpleños de mi mamá.</p>
+</div>
+<div id="día-2-18-10-2020-a-las-1000-hrs" class="section level2">
+<h2>Día 2: 18-10-2020 a las 10:00 hrs</h2>
+<p>Parto donde quedé ayer: en la página 5 en la misma búsqueda.</p>
+<p><strong>Guardo:</strong> <em>Adolescents’ development of approval of violent political action: evidence from six waves of longitudinal data</em></p>
+<p><strong>Guardo:</strong> <em>Recent developments in the psychology of crowds and collective behaviour</em></p>
+<p><strong>Guardo:</strong> <em>The limited importance of dehumanization in collective violence</em></p>
+<p><strong>Guardo:</strong> <em>Resistance to collective victimization and oppression</em></p>
+<p><strong>Guardo</strong> <em>The role of group-based egalitarianism in collective action</em></p>
+<p><strong>Guardo:</strong> <em>Engineering social change using social norms: lessons from the study of collective action</em></p>
+<p><strong>Guardo:</strong> <em>Policy Preferences after Crime Victimization: Panel and Survey Evidence from Latin America</em></p>
+<p><strong>Guardo:</strong> <em>The Effects of Police Contact and Neighborhood Context on Delinquency and Violence</em></p>
+<p><strong>Guardo:</strong> <em>Community Violence and Support for Violent Extremism: Evidence From the Sahel</em></p>
+<p>Llego a la página 10 de 2000 con 50 papers por pagina (en total 500 papers) y optó por agregar al filtro de <em>Highly Cited in Field</em> (506 papers).</p>
+<p>Encuentro el paper <em>Assessing LGBT People’s Perceptions of Police Legitimacy</em> el cual ya tengo guardado en la carpeta Police Legitimacy de Zotero.</p>
+<p><strong>Guardo:</strong> <em>Violence, Empathy and Altruism: Evidence from the Ivorian Refugee Crisis in Liberia</em></p>
+<p><strong>Guardo:</strong> <em>Does electoral violence affect vote choice and willingness to vote? Conjoint analysis of a vignette experiment</em></p>
+<p><strong>Guardo:</strong> <em>Two types of aggression in human evolution</em></p>
+<p><strong>Guardo:</strong> <em>Police Violence and Citizen Crime Reporting in the Black Community</em></p>
+<p><strong>Guardo:</strong> <em>The Ascent of Man: Theoretical and Empirical Evidence for Blatant Dehumanization</em></p>
+<p><strong>Guardo:</strong> <em>Dehumanization and Infrahumanization</em></p>
+<p><strong>Guardo:</strong> <em>Violent Conflict and Behavior: A Field Experiment in Burundi</em></p>
+<p>Cambio los filtros de busqueda. Vuelvo a topic “violence”, y agrego de filtro la discplina “Sociology”. Hay 5.763 resultados.</p>
+<p><strong>Guardo:</strong> <em>Violence, identity and culture. Perspectives and topics in the global scenarios</em></p>
+<p><strong>Guardo:</strong> <em>Violence and social change. The new routes of sovereignty in the globalised world</em></p>
+<p><strong>Guardo:</strong> <em>Bullying Perpetration and Perceived Parental Monitoring: A Random Intercepts Cross-Lagged Panel Model</em> Nota: Guardo este articulo por el metodo</p>
+<p><strong>Guardo:</strong> <em>Towards a Multi-modal Phenomenological Approach of Violence</em></p>
+<p><strong>Guardo:</strong> <em>Illness spillovers of lethal police violence: the significance of gendered marginalization</em></p>
+<p><strong>Guardo:</strong> <em>Event and Structure: A Phenomenological Approach of Irreducible Violence</em></p>
+<p><strong>Guardo:</strong> <em>Violence and Affectivity</em></p>
+<p><strong>Guardo:</strong> <em>Beyond an Instrumental View of Violence: On Sartre’s Discussion of Violence inNotebooks for an Ethics</em></p>
+<p><strong>Guardo:</strong> <em>Sociology of violence in change About situations, processes, and orders as components for the exploration of violence</em></p>
+<p>Llegué a la página 3.</p>
+<p>Día 3: 21-10-2020</p>
+<p>Durante el día se me ocurrió ramificar la busqueda desde Monica Gerber. En consiguiente, guardo todos los siguientes documentos:</p>
+<p><strong>Guardo:</strong> <em>A dual-process motivational model of punitive attitudes: the effects of right-wing authoritarianism and social dominance orientation on public punitiveness</em></p>
+<p><strong>Guardo:</strong> <em>Authority and Punishment: On the Ideological Basis of Punitive Attitudes towards Criminals</em></p>
+<p><strong>Guardo:</strong> <em>Control Social y Justificación de la Violencia en Chile. Resultados Encuesta Nacional UDP 2015</em></p>
+<p><strong>Guardo:</strong> <em>Development and validation of a scale of support for violence in the context of intergroup conflict (SVIC): The case of violence perpetrated by Mapuche people and the police in Chile</em></p>
+<p><strong>Guardo:</strong> <em>Resultados Primera Ola Estudio Longitudinal Social de Chile (ELSOC)</em></p>
+<p><strong>Guardo:</strong> <em>On the justification of intergroup violence: The roles of procedural justice, police legitimacy and group identity in attitudes towards violence among indigenous people</em></p>
+<p><strong>Guardo:</strong> <em>Social identities and conflict in Chile: the role of historical and political processes – COES</em></p>
+<p><strong>Guardo:</strong> <em>Trust and legitimacy across Europe: a FIDUCIA report on comparative public attitudes towards legal authority</em></p>
+<p>Asi también, guardo las dos ultimas presentaciones de resultados de ELSOC.</p>
+<p>Desde Monica Gerber, veo que uno de sus articulos más atingentes a mi tema es de una revista llama Psichology of Violence, voy a esa revista y veo los Special Issue. De ahi reviso en detalle los siguientes Special Issue:</p>
+<ul>
+<li>Situational Factors in Violence</li>
+</ul>
+<p><strong>Guardo:</strong> <em>Situational Factors and Mechanisms in Pathways to Violence</em> <strong>Guardo:</strong> <em>Situational dynamics and the emergence of violence in protests.</em> <strong>Guardo:</strong> <em>How violence happens (or not): Situational conditions of violence and nonviolence in Bahrain, Tunisia, and Syria.</em></p>
+<ul>
+<li>The Measurement of Violence and Victimization</li>
+</ul>
+<p><strong>Guardo:</strong> <em>Advancing the measurement of violence: Challenges and opportunities.</em></p>
+<ul>
+<li>Theories of Violence</li>
+</ul>
+<p><strong>Guardo:</strong> <em>The general aggression model: Theoretical extensions to violence.</em></p>
+<p>Asi también, guardo el siguiente documento sobre la metodología que se piensa utilizar:</p>
+<p><strong>Guardo:</strong> <em>Cross-Lagged Panel Analysis</em></p>
+<p>Buscando por sociología y violencia en google pillé un Documento de Trabajo de rebueno, lo guardo en Zotero.</p>
+<p>Guardo también el libro de ROberto Briceño Leon.</p>
+<p>Urgeteando en Google guardo lo siguiente:</p>
+<p><strong>Guardo:</strong> <em>Para una sociología de la violencia. América Latina en perspectiva comparada</em></p>
+<p><strong>Guardo:</strong> <em>Violencia, sociedad y justicia en América Latina / Roberto Briceño-León, compilador</em></p>
+</div>
+<div id="día-4-22-10-2020-a-las-1030-hrs" class="section level2">
+<h2>Día 4: 22-10-2020 a las 10:30 hrs</h2>
+<p>Me pongo a leer textos. En las referencias de Gerber y Puga (2016) encuentro el siguiente texto que parece ser clasico:</p>
+<p><strong>Guardo:</strong> <em>Predicting attitudes toward violence</em></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
