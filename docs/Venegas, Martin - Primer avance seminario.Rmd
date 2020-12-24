@@ -1,0 +1,86 @@
+---
+title: "Determinantes del cambio en las justificaciones de violencia"
+author: "Venegas, M"
+date: "7/11/2020"
+output: pdf_document
+bib: Seminario.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+La violencia es un concepto complejo que puede ser abordado desde dimensiones sociales, analíticas y morales. Desde la dimensión social, la violencia es tema constante de discusión en la opinión pública. En Chile, ante situaciones de violencia mediatizada como casos de represión policial en la Araucanía o linchamientos por parte de la ciudadanía, los límites de la violencia se han ido instalando en la discusión. Desde el llamado "estallido social" esta se ha focalizado en determinar si acciones de manifestantes y policías pueden ser consideradas actos de violencia y si, en el caso de serlo, son justificables. Desde una dimensión conceptual, la definición de los actos de violencia se caracteriza por ser ambigua, incierta (Heitmeyer y Hagan, 2003), heterogenea y compuesta de distintas facetas (Imbusch, 2003; Buffachi, 2007). Aquella más comunmente utilizada refiere al uso de la fuerza física y el infringimiento de daño (Buffachi, 2007; Heitmeyer y Hagan, 2003). Aunque, hay otras aproximaciones que definen la violencia como la violación de derechos o la violación de la integridad (Buffachi, 2007; Gert, 1969). Estas definiciones son susceptibles de cruzarse con juicios morales. Algunos autores determinan si un acto es violento o no de acuerdo con su posibilidad de justificación (Gert, 1969), otros argumentan que la definición es independiente de los juicios morales respecto a la violencia (Buffachi, 2007). Desde esta dimensión moral, las justificaciones de violencia varían de acuerdo con múltiples factores: los fines de la violencia, quien la ejerce, o en qué contexto se ejerce son algunos de los más influyentes. Una sistematización clara desde la literatura han sido los "principios de justificación" (Buffachi, 2007). En suma, la violencia, y específicamente las justificaciones de violencia es una temática sumamente compleja dada su multidimensionalidad.
+
+Las justificaciones de violencia se ven influenciadas en gran medida por factores de nivel individual-psicológico, aunque esto puede variar de acuerdo con quien emite la justificación. Los perpetradores de la violencia cuentan con estrategias de justificación basadas en sus motivos. Estas estrategias tienen el objetivo de evadir el autorreproche y de presentarse como explicación ante terceros (Lamnek, 2003). Existen una serie de motivos que determinan estas estrategias de justificación, como: uso instrumental como medio par un fin, como forma de comunicación, forma de placer, forma de estabilización de identidad (Lamnek, 2003). Cuando la violencia refiere al orden social, los evaluadores externos a una relación de violencia también la justifican en términos motivacionales. Algunas de estas motivaciones tienen un objetivo comunitario: aumentar la seguridad, aumentar la cohesión social, y otras tienen un objetivo normativo: restaurar la justicia, restaurar orden jerárquico y relaciones de poder (Gerber y Puga, 2016). En detalle, cuando se trata de linchamientos y represión social, las justificaciones se basan en motivos de restaurar el orden jerárquico y la justicia (Gerber y Puga, 2016). Cuando la violencia es evaluada desde el grupo de aquellos que son -potenciales- víctimas de violencia, se tornan relevantes otros factores. En el caso de la violencia ejercida desde la policía hacia grupos indígenas, el nivel de justicia evaluada en los procesos que efectúa la policía para ejercer la fuerza es influyente en la justificación de la violencia por parte de grupos indígenas (Gerber et al., 2017). En sintesis, los motivos (en tanto causa) como los motivos (en tanto objetivo) influyen en las justificaciones de violencia. Aunque esto puede no ser el factor principal cuando lo que varía es el evaluador de la violencia.
+ 
+La investigación se ha centrado en estudiar orientaciones motivacionales para la justificación de la violencia (enfoque desde la psicología), o teorizar en torno a las implicancias morales de la justificación (enfoque desde la teoría política), pero hay poca investigación referente a las condicionantes sociales-contextuales. Y las que hay, no permiten estudiar los cambios en esas relaciones. Las orientaciones motivacionales en las justificaciones de violencia se han estudiado desde factores asociados a la literatura de aceptación del castigo, la cual se caracteriza por su enfoque psicológico-individual. Gerber y Jackson (2017) encuentran que la ideología política (en términos de orientación hacia la dominación social y autoritarismo de derecha) influyen en la justificación del uso de la fuerza por parte de la policía. En adición, la justificación del castigo hacia delincuentes se ha estudiado principalmente desde los medios de las posibles victimas, su preocupación por los limites morales de la comunidad y sus preferencias ideológicas (Gerber y Jackson, 2016). Otros trabajos, especialmente desde la teoría política, han buscado determinar qué constituyen actos de violencia y bajo que principios se justifican: principio de autodefensa, principio del último recurso, principio de proporcionalidad etc. (Buffachi, 2007; Dean, 2005). Desde la sociología, los focos han estado puestos en los estudios de la violencia misma más que en sus justificaciones. Por ejemplo, Briceño León (2007) propone un modelo teórico para el estudio de la violencia urbana, estructurada en dimensiones macro (factores que originan la violencia), meso (factores que fomentan la violencia) y micro (factores que facilitan la violencia). Por otro lado, Collins (2009) plantea una teoría microsociológica para el estudio de las situaciones de violencia, en contraste al estudio de “individuos violentos”. Aquellos estudios sociológicos más ligados a las justificaciones de violencia han tenido una aproximación transversal, lo que limita la comprensión del fenomeno. Por ejemplo, en un estudio comparativo sobre el derecho a matar en Iberoamérica, Briceño León (2007) encuentra que quienes más justifican el derecho a matar en nombre de la familia son hombres blancos católicos, y quienes justifican la violencia en términos de “venganza social” son jóvenes universitarios. En suma, hasta lo mejor de mi conocimiento, la investigación de los factores sociales en las justificaciones de violencia es un campo aun por estudiar, especialmente al incluir la noción del cambio.
+ 
+Las justificaciones de violencia pueden ser influidas por factores sociales que, además, van cambiando en el tiempo. El foco de esta investigación está puesto en explorar los factores sociales-contextuales que pueden influir en los cambios en las justificaciones de la violencia, separando, además, la violencia en dos tipos: por el orden y por el cambio. En consiguiente, la pregunta es: *¿Cuáles son los factores que han influenciado los cambios en las justificaciones de violencia por el orden social y por el cambio social en la población chilena entre el 2016 y 2019?* Para lograr el objetivo, se opta por un enfoque cuantitativo longitudinal. Se busca medir la justificación que tiene la población chilena con respecto a distintas situaciones que pueden ser catalogadas como actos de violencia. Dado los antecedentes, se espera que ser hombre y mayores niveles educacionales tengan una relación con mayores justificaciones de violencia. Sin embargo, dado la naturaleza del estudio, los cambios en estas relaciones -y otras posibles- se aborda desde una óptica exploratoria. Los resultados de esta investigación aportarán con evidencia empírica para una comprensión más amplia de los actos de violencia.
+
+# Método
+
+Este estudio utilizará datos secundarios de la Encuesta Social Longitudinal de Chile (ELSOC) en sus cuatro olas, que van desde el 2016 hasta el 2019. ELSOC es una encuesta panel representativa de la población chilena, la cual busca hacer una radiografía del cambio en las creencias, actitudes, y opiniones respecto al conflicto en la sociedad. Cuenta con un diseño muestral probabilístico, estratificado y multietápico. Para el 2016 tuvo una muestra lograda de 2927 encuestados, para el 2017 2473 encuestados y para el 2018 2229.
+
+Los indicadores a utilizar como variable dependiente para el análisis a realizar son las siguientes:
+
+### Tabla 1. Indicadores Modulo F - Conflicto. Batería sobre justificaciones de violencia
+
+| F5. ¿En qué medida cree usted que se justifican o no se justifican las siguientes situaciones?                                     |
+|------------------------------------------------------------------------------------------------------------------------------------|
+| F5.1. Que algunas personas persigan y golpeen a un "delincuente" que acaba de cometer un asalto.                                   |
+| F5.2. Que algunas personas amarren a un poste y desnuden a un "delincuente" que acaba de cometer un delito.                        |
+| F5.3. Que Carabineros use la fuerza para reprimir una manifestación pacifica.                                                      |
+| F5.4. Que Carabineros desaloje a la fuerza a los estudiantes de un liceo en toma.                                                  |
+| F5.5. Que un marido abofetee a su mujer por una pelea que ella comenzó.                                                            |
+| F5.6. Que un grupo de trabajadores en huelga bloquee la calle con barricadas para exigir el cumplimiento de sus derechos laborales |
+| F5.7. Que estudiantes tiren piedras a Carabineros en una marcha por la educación del país.                                         |
+| F5.8. Que un grupo de personas ataque a un travesti que está ofreciendo servicios sexuales en la calle.                            |
+
+Y las respuestas a estos indicadores corresponden a una escala tipo Likert de 1 a 5 tal y como se muestra a continuación:
+
+### Tabla 2. Categorías de respuesta a batería de justificaciones de violencia (F5).
+
+| Respuestas                    |
+|-------------------------------|
+| 1. Nunca se justifica         |
+| 2. Pocas veces se justifica   |
+| 3. Algunas veces se justifica |
+| 4. Muchas veces se justifica  |
+| 5. Siempre se justifica       |
+| -888. No sabe                 |
+| -999. No responde             |
+
+
+El tratamiento que se le dará a la variable dependiente aun es una decisión por tomar. Sin embargo, hasta el presente avance, propongo utilizar medias simples entre los indicadores F5.3 y F5.4 para medir *violencia por el orden social* y F5.6 y F5.7 para medir *violencia por el cambio social*. La inclusión de otros indicadores aun está sujeto a la discusión a profundizar y el marco teórico a realizar, así como también a la amplitud posible del estudio. Específicamente, se tiene en consideración incluir F5.1 y F5.2 dentro del concepto de violencia por el orden social a modo de ampliar el fenómeno a trabajar, y de excluir F5.6 de violencia por el cambio social en función de la definición de violencia a utilizar. Una revisión de literatura más profunda es necesaria para la toma de estas decisiones, así como también un posible Análisis Factorial.
+
+Las variables independientes del estudio aun se mantienen en fase de selección y discusión, aunque ya antecedentes señalados en la introducción han mostrado a ciertos factores ser posiblemente relevantes de introducir en el moldeamiento: edad, sexo, nivel educacional y religión (más allá de ser variables de control clásicas. Otras variables, a intuición propia, se consideran posiblemente relevantes para este estudio tales como: participación en protestas, posición política, sentido de justicia, por decir algunas.
+
+Para el análisis de datos y construcción de resultados se propone utilizar técnicas longitudinales que permitan medir los cambios en las relaciones entre variables. Hasta el presente avance, se propone el uso de Cross Laged Panel Analysis, el cual permite analizar relaciones reciprocas, o influencias direccionales entre variables durante el tiempo. No obstante, es susceptible a cambios de acuerdo a idoneidad para el tratamiento de los datos a trabajar.
+
+# Referencias
+
+
+Bufacchi, V. (2007). *Violence and Social Justice*. Palgrave Macmillan, London.
+
+Briceño-León, R. (2007). *Sociología de la violencia en América Latina* (Vol. 3). FLACSO Ecuador.
+
+Collins, R. (2009). *Violence: A micro-sociological theory*. Princeton University Press.
+
+Dean, L. (2005). An analysis of the justification for the use of violence for political. Mountbatten Journal of Legal Studies, 9(1 & 2), 65-100.
+
+Gerber, M & Puga, I.(2016). Control Social y Justificación de la Violencia en Chile. Resultados Encuesta Nacional UDP 2015. DOCUMENTO DE TRABAJO ICSO – N° 22 / 2016 Serie Encuesta Nacional UDP
+
+Gerber, M. & Jackson, J. (2016) Authority and Punishment: On the Ideological Basis of Punitive Attitudes towards Criminals, Psychiatry, Psychology and Law, 23:1, 113-134, DOI: 10.1080/13218719.2015.1034060
+
+Gerber, M., & Jackson, J. (2017). Justifying violence: Legitimacy, ideology and public support for police use of force. Psychology, Crime & Law, 23(1), 79-95. Disponible con DOI: 10.1080/1068316x.2016.1220556
+
+Gerber, M, González, R, Carvacho, H, Jiménez-Moya, G, Jackson, J. (2017).On the justification of intergroup violence: The roles of procedural justice, police legitimacy and group identity in attitudes towards violence among indigenous people Psychology of Violence ISSN 2152-0828
+
+Gert, B. (1969). Justifying violence. *The Journal of Philosophy*, 66(19), 616-628.
+
+Heitmeyer, W., & Hagan, J. (2003). Violence: The difficulties of a systematic international review. *In International handbook of violence research* (pp. 3-11). Springer, Dordrecht.
+
+Imbusch, P. (2003). The concept of violence. In *International handbook of violence research* (pp. 13-39). Springer, Dordrecht.
+
+Lamnek, S. (2003). Individual violence justification strategies. In *International handbook of violence research* (pp. 1113-1127). Springer, Dordrecht.
