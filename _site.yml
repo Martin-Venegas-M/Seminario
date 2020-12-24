@@ -4,7 +4,9 @@ navbar:
   title: "Seminario documents"
   left:
   - text: "Presentación de propuesta para Seminario de Grado"
-    href: Ppt1-Tema.html
+    href: presentations/ppt1-oct2020/Ppt1-Tema.html
+  - text: "Presentación avances Seminario de Grado"
+    href: presentations/ppt1-oct2020/ppt2.html
 output:
   html_document:
     theme: yeti # yeti  spacelab simplex sandstone cosmo cerulean paper darkly flatly lumen readable
