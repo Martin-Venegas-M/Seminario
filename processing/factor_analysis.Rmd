@@ -1,0 +1,289 @@
+---
+title: "Análisis Factorial"
+author: "Martín Venegas"
+date: "8/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Fundamentals}
+
+# Load packages
+
+pacman::p_load(tidyverse, sjPlot, ggplot2, stargazer, kableExtra, texreg, psych, psy, nFactors, summarytools, sjlabelled, sjmisc, car, corrplot, polycor, GPArotation, nortest, tseries, lavaan)
+
+# Load database
+
+load("../input/data/ELSOC_Wide_2016_2019_v1.00_R.RData")
+
+```
+
+```{r Proc dataset}
+
+# Find variables with "violence" label
+find_var(data = elsoc_wide_2016_2019, "violencia")
+
+# Select dependent variables
+df <- elsoc_wide_2016_2019 %>% select(idencuesta, f05_01_w01:f05_11_w04)
+
+# Rename variables
+df <- df %>% rename(jv_cast1_2016 = f05_01_w01, # Perseguir y golpear delincuentes
+                    jv_cast1_2017 = f05_01_w02,
+                    jv_cast1_2018 = f05_01_w03,
+                    jv_cast1_2019 = f05_01_w04,
+                    # Amarrar delincuentes
+                    jv_cast2_2016 = f05_02_w01,
+                    jv_cast2_2017 = f05_02_w02,
+                    jv_cast2_2018 = f05_02_w03,
+                    jv_cast2_2019 = f05_02_w04,
+                    # Carabineros repriman marchas
+                    jv_carab1_2016 = f05_03_w01,
+                    jv_carab1_2017 = f05_03_w02,
+                    jv_carab1_2018 = f05_03_w03,
+                    jv_carab1_2019 = f05_03_w04,
+                    # Carabineros desalojen tomas
+                    jv_carab2_2016 = f05_04_w01,
+                    jv_carab2_2017 = f05_04_w02,
+                    jv_carab2_2018 = f05_04_w03,
+                    jv_carab2_2019 = f05_04_w04,
+                    # Marido abofetee mujer
+                    jv_marido_2016 = f05_05_w01,
+                    jv_marido_2017 = f05_05_w02,
+                    jv_marido_2018 = f05_05_w03,
+                    jv_marido_2019 = f05_05_w04,
+                    # Trabajadores corten calle
+                    jv_trabaj_2016 = f05_06_w01,
+                    jv_trabaj_2017 = f05_06_w02,
+                    jv_trabaj_2018 = f05_06_w03,
+                    jv_trabaj_2019 = f05_06_w04,
+                    #, Estudiantes tiren piedras
+                    jv_est_2016 = f05_07_w01,
+                    jv_est_2017 = f05_07_w02,
+                    jv_est_2018 = f05_07_w03,
+                    jv_est_2019 = f05_07_w04,
+                    # Ataquen a travestis
+                    jv_travest_2016 = f05_08_w01,
+                    jv_travest_2017 = f05_08_w02,
+                    # Dano inmobiliario public
+                    jv_prop1_2019 = f05_09_w04,
+                    # Dano transporte publico
+                    jv_prop2_2019 = f05_10_w04,
+                    # Dano comercio
+                    jv_prop3_2019 = f05_11_w04)
+
+
+
+```
+```{r Big table summary before NA rec}
+view(dfSummary(df, headings=FALSE))
+```
+
+```{r NA Recode}
+df$jv_cast1_2016 <- car::recode(df$jv_cast1_2016, "-888=NA; -999=NA")
+df$jv_cast1_2017 <- car::recode(df$jv_cast1_2017, "-888=NA; -999=NA")
+df$jv_cast1_2018 <- car::recode(df$jv_cast1_2018, "-888=NA; -999=NA")
+df$jv_cast1_2019 <- car::recode(df$jv_cast1_2019, "-888=NA; -999=NA")
+
+df$jv_cast2_2016 <- car::recode(df$jv_cast2_2016, "-888=NA; -999=NA")
+df$jv_cast2_2017 <- car::recode(df$jv_cast2_2017, "-888=NA; -999=NA")
+df$jv_cast2_2018 <- car::recode(df$jv_cast2_2018, "-888=NA; -999=NA")
+df$jv_cast2_2019 <- car::recode(df$jv_cast2_2019, "-888=NA; -999=NA")
+
+
+df$jv_carab1_2016 <- car::recode(df$jv_carab1_2016, "-888=NA; -999=NA")
+df$jv_carab1_2017 <- car::recode(df$jv_carab1_2017, "-888=NA; -999=NA")
+df$jv_carab1_2018 <- car::recode(df$jv_carab1_2018, "-888=NA; -999=NA")
+df$jv_carab1_2019 <- car::recode(df$jv_carab1_2019, "-888=NA; -999=NA")
+
+df$jv_carab2_2016 <- car::recode(df$jv_carab2_2016, "-888=NA; -999=NA")
+df$jv_carab2_2017 <- car::recode(df$jv_carab2_2017, "-888=NA; -999=NA")
+df$jv_carab2_2018 <- car::recode(df$jv_carab2_2018, "-888=NA; -999=NA")
+df$jv_carab2_2019 <- car::recode(df$jv_carab2_2019, "-888=NA; -999=NA")
+
+df$jv_marido_2016 <- car::recode(df$jv_marido_2016, "-888=NA; -999=NA")
+df$jv_marido_2017 <- car::recode(df$jv_marido_2017, "-888=NA; -999=NA")
+df$jv_marido_2018 <- car::recode(df$jv_marido_2018, "-888=NA; -999=NA")
+df$jv_marido_2019 <- car::recode(df$jv_marido_2019, "-888=NA; -999=NA")
+
+df$jv_trabaj_2016 <- car::recode(df$jv_trabaj_2016, "-888=NA; -999=NA")
+df$jv_trabaj_2017 <- car::recode(df$jv_trabaj_2017, "-888=NA; -999=NA")
+df$jv_trabaj_2018 <- car::recode(df$jv_trabaj_2018, "-888=NA; -999=NA")
+df$jv_trabaj_2019 <- car::recode(df$jv_trabaj_2019, "-888=NA; -999=NA")
+
+df$jv_est_2016 <- car::recode(df$jv_est_2016, "-888=NA; -999=NA")
+df$jv_est_2017 <- car::recode(df$jv_est_2017, "-888=NA; -999=NA")
+df$jv_est_2018 <- car::recode(df$jv_est_2018, "-888=NA; -999=NA")
+df$jv_est_2019 <- car::recode(df$jv_est_2019, "-888=NA; -999=NA")
+
+df$jv_travest_2016 <- car::recode(df$jv_travest_2016, "-888=NA; -999=NA")
+df$jv_travest_2017 <- car::recode(df$jv_travest_2017, "-888=NA; -999=NA")
+
+df$jv_prop1_2019 <- car::recode(df$jv_prop1_2019, "-888=NA; -999=NA")
+df$jv_prop2_2019 <- car::recode(df$jv_prop2_2019, "-888=NA; -999=NA")
+df$jv_prop3_2019 <- car::recode(df$jv_prop3_2019, "-888=NA; -999=NA")
+
+```
+
+```{r Big table summary post NA rec}
+view(dfSummary(df, headings=FALSE))
+```
+```{r Matriz correlaciones Pearson}
+basecor<- df %>% select(jv_cast1_2019, jv_cast2_2019, jv_carab1_2019, jv_carab2_2019, jv_marido_2019, jv_trabaj_2019, jv_est_2019, jv_prop1_2019, jv_prop2_2019, jv_prop3_2019
+)
+
+cormat=cor(basecor, use = "complete.obs")
+
+windowsFonts(A = windowsFont("Times New Roman"))
+rownames(cormat) <-c("A. Perseguir y golpear delincuente",
+    "B. Amarrar delincuente",
+    "C. Carabineros reprime marcha",
+    "D. Carabineros desaloja toma",
+    "E. Marido abofetea mujer",
+    "F. Trabajadores cortan calle",
+    "G. Estudiantes tiran piedras", 
+    "H. Dano inmobiliario publico",
+    "I. Dano transporte publico",
+    "J. Dano comercio"
+    )
+    
+    
+colnames(cormat) <-c("(A)", "(B)","(C)","(D)","(E)","(F)", "(G)", "(H)", "(I)", "(J)")
+
+
+corrplot(cormat,
+  method = "color",
+  type = "upper",
+  tl.col = "black",
+  addCoef.col = "black",
+  diag = TRUE,
+  family = "A",
+  number.font = 6,
+  tl.cex =0.75,
+  number.cex = 1)
+
+```
+
+
+```{r Matriz correlaciones policloricas}
+basecor<- df %>% select(jv_cast1_2019, jv_cast2_2019, jv_carab1_2019, jv_carab2_2019, jv_marido_2019, jv_trabaj_2019, jv_est_2019, jv_prop1_2019, jv_prop2_2019, jv_prop3_2019
+)
+
+polycor <- psych::polychoric(basecor)
+polycor$rho
+
+windowsFonts(A = windowsFont("Times New Roman"))
+rownames(polycor$rho) <-c("A. Perseguir y golpear delincuente",
+    "B. Amarrar delincuente",
+    "C. Carabineros reprime marcha",
+    "D. Carabineros desaloja toma",
+    "E. Marido abofetea mujer",
+    "F. Trabajadores cortan calle",
+    "G. Estudiantes tiran piedras", 
+    "H. Dano inmobiliario publico",
+    "I. Dano transporte publico",
+    "J. Dano comercio"
+    )
+    
+    
+colnames(polycor$rho) <-c("(A)", "(B)","(C)","(D)","(E)","(F)", "(G)", "(H)", "(I)", "(J)")
+
+
+corrplot(polycor$rho,
+  method = "color",
+  type = "upper",
+  tl.col = "black",
+  addCoef.col = "black",
+  diag = TRUE,
+  family = "A",
+  number.font = 6,
+  tl.cex =0.75,
+  number.cex = 1)
+
+```
+
+
+
+```{r Factor analysis}
+# Create df by theoretical factors
+control <- df %>% select(jv_carab1_2019, jv_carab2_2019) # Violencia por el control
+cambio <- df %>% select(jv_trabaj_2019, jv_est_2019, jv_prop1_2019, jv_prop2_2019, jv_prop3_2019) # Violencia por el cambio (incluye trabaj)
+castigo <- df %>% select(jv_cast1_2019, jv_cast2_2019) # Violencia como castigo
+df_fa_2019 <- df %>% select(jv_carab1_2019, jv_carab2_2019, jv_est_2019, jv_prop1_2019, jv_prop2_2019, jv_prop3_2019) # Var deps
+
+df_fa_2019_t <- df %>% select(jv_carab1_2019, jv_carab2_2019, jv_est_2019, jv_trabaj_2019, jv_prop1_2019, jv_prop2_2019, jv_prop3_2019)
+
+# Create correlation matrix
+cor_control =cor(control, use = "complete.obs")
+cor_cambio =cor(cambio, use = "complete.obs")
+cor_castigo =cor(castigo, use = "complete.obs")
+cor_df_fa_2019 =cor(df_fa_2019, use = "complete.obs")
+cor_df_fa_2019_t =cor(df_fa_2019_t, use = "complete.obs")
+
+# Cronbach Aplha-s
+psych::alpha(cor_control, keys=NULL,cumulative=FALSE, title=NULL,na.rm = TRUE,
+             check.keys=TRUE,n.iter=1,delete=TRUE)
+psych::alpha(cor_cambio, keys=NULL,cumulative=FALSE, title=NULL,na.rm = TRUE,
+             check.keys=TRUE,n.iter=1,delete=TRUE)
+psych::alpha(cor_castigo, keys=NULL,cumulative=FALSE, title=NULL,na.rm = TRUE,
+             check.keys=TRUE,n.iter=1,delete=TRUE)
+psych::alpha(cor_df_fa_2019, keys=NULL,cumulative=FALSE, title=NULL,na.rm = TRUE,
+             check.keys=TRUE,n.iter=1,delete=TRUE)
+
+# Conditions for FA
+
+## Normality test
+lillie.test(df_fa_2019$jv_carab1_2019)
+lillie.test(df_fa_2019$jv_carab2_2019)
+lillie.test(df_fa_2019$jv_est_2019)
+lillie.test(df_fa_2019$jv_prop1_2019)
+lillie.test(df_fa_2019$jv_prop2_2019)
+lillie.test(df_fa_2019$jv_prop3_2019)
+
+jarque.bera.test(na.omit(df_fa_2019$jv_carab1_2019))
+jarque.bera.test(na.omit(df_fa_2019$jv_carab2_2019))
+jarque.bera.test(na.omit(df_fa_2019$jv_est_2019))
+jarque.bera.test(na.omit(df_fa_2019$jv_prop1_2019))
+jarque.bera.test(na.omit(df_fa_2019$jv_prop2_2019))
+jarque.bera.test(na.omit(df_fa_2019$jv_prop3_2019))
+
+## Determinant
+det(cor_df_fa_2019) # Resultado: 0.05797724. This value is greater than the necessary value of 0.00001 (see section 17.5). As such, our determinant does not seem problematic.
+
+## KMO
+KMO(df_fa_2019)
+
+## Bartlett test
+cortest.bartlett(df_fa_2019)
+
+# EFA by ML
+fa1<- fa(r=cor_df_fa_2019, nfactors = 2, rotate = "none", fm="ml")
+fa.sort(fa1)
+
+# EFA by PA
+
+fa2<- fa(r=df_fa_2019_t, nfactors = 3, rotate = "oblimin", fm="pa")
+fa.sort(fa2)
+fa.stats(fa2)
+fa.diagram(fa2)
+summary(fa1)
+summary(fa2)
+print(fa2)
+scree(cor_df_fa_2019_t)
+
+
+```
+
+```{r Factor analysys by lavaan}
+
+fa_jv <- ' jvcam =~ jv_prop1_2019 + jv_prop2_2019 + jv_prop3_2019 + jv_est_2019
+           jvcon =~ jv_carab1_2019 + jv_carab2_2019 '
+
+fit_jv <- lavaan::cfa(fa_jv, data = df_fa_2019, missing = "ML")
+summary(fit_perpref2, fit.measures=TRUE,standardized=TRUE)
+
+```
+
+

@@ -36,7 +36,7 @@ library(RefManageR)
 BibOptions(check.entries = FALSE,
            hyperlink = FALSE,
            dashed = FALSE)
-myBib <- ReadBib("../Violencia.bib", check = FALSE)
+myBib <- ReadBib("../../Violencia.bib", check = FALSE)
 ```
 ---
 class: inverse, center, middle
@@ -336,14 +336,14 @@ otras intercaladas entre olas.
 
 | F5. ¿En qué medida cree usted que se justifican o no se justifican las siguientes situaciones?                                     |
 |------------------------------------------------------------------------------------------------------------------------------------|
-|~~F5.1. Que algunas personas persigan y golpeen a un "delincuente" que acaba de cometer un asalto.~~                                   |
-| ~~F5.2. Que algunas personas amarren a un poste y desnuden a un "delincuente" que acaba de cometer un delito.~~                        |
-| F5.3. Que Carabineros use la fuerza para reprimir una manifestación pacifica.                                                      |
-| F5.4. Que Carabineros desaloje a la fuerza a los estudiantes de un liceo en toma.                                                  |
-| ~~F5.5. Que un marido abofetee a su mujer por una pelea que ella comenzó.~~                                                        |
+|F5.1. Que algunas personas persigan y golpeen a un "delincuente" que acaba de cometer un asalto.                                   |
+| F5.2. Que algunas personas amarren a un poste y desnuden a un "delincuente" que acaba de cometer un delito.                        |
+| **F5.3. Que Carabineros use la fuerza para reprimir una manifestación pacifica.**                                                      |
+| **F5.4. Que Carabineros desaloje a la fuerza a los estudiantes de un liceo en toma.**                                                  |
+| F5.5. Que un marido abofetee a su mujer por una pelea que ella comenzó.                                                        |
 | F5.6. Que un grupo de trabajadores en huelga bloquee la calle con barricadas para exigir el cumplimiento de sus derechos laborales |
-| F5.7. Que estudiantes tiren piedras a Carabineros en una marcha por la educación del país.                                         |
-| ~~F5.8. Que un grupo de personas ataque a un travesti que está ofreciendo servicios sexuales en la calle.~~                        |
+| **F5.7. Que estudiantes tiren piedras a Carabineros en una marcha por la educación del país**w.                                         |
+| F5.8. Que un grupo de personas ataque a un travesti que está ofreciendo servicios sexuales en la calle.                        |
 ---
 ## Dependiente
 

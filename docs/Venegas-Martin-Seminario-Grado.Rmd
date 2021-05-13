@@ -1,0 +1,363 @@
+---
+title: 'Justificaciones de violencia en contexto de protesta: un análisis de sus determinantes durante el 2019 en Chile'
+author: 
+  - Martín Venegas Márquez - Seminarista
+  - Juan Carlos Castillo - Profesor Guía
+subtitle: "Seminario para optar al grado de Licenciado en Sociología"
+date: "19/1/2021"
+output:
+  pdf_document: default
+  word_document:
+    reference_docx: SeminarioGrado-Martin.docx
+  html_document:
+    theme: united
+    number_sections: yes
+    always_allow_html: yes
+editor_options:
+  chunk_output_type: console
+geometry: margin=0.78in
+linestretch: '1.5'
+fontsize: 12pt
+font-family: Times New Roman
+link-citations: yes
+linkcolor: black
+bibliography: ../input/bib/Violencesf.bib
+csl: ../input/bib/apa7.csl
+toc: yes
+header-includes:
+- \usepackage{caption}
+- \captionsetup[figure, table]{labelfont={bf},labelformat={default},labelsep=period}
+- \usepackage{graphicx}
+- \usepackage{float}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{titling}
+- \pretitle{\begin{center}\LARGE\includegraphics[width=12cm]{../input/images/logo.png}\\[\bigskipamount]}
+- \posttitle{\end{center}}
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[CO,CE]{}
+- \fancyfoot[CO,CE]{}
+- \fancyfoot[LE,RO]{\thepage}
+abstract: "La vida en democracia consiste en el planteamiento de limites morales para el uso de la violencia, lo que decanta en la discusión sobre las situaciones en que esta se justifica. Existe una preocupación de que la justificación de la violencia pueda llevar a una escalada de violencia en la sociedad, especialmente en el contexto chileno actual. La pregunta sobre las determinantes para la justificación de la violencia se torna relevante para evitar su alza y con ello el quiebre del orden normativo de la sociedad. La literatura académica ha trabajado tanto normativa como empiricamente este fenomeno, aunque dada su complejidad ha sido dificil de lograr una comprensión integral. Con el fin de avanzar hacia una agenda interdiscplinar, este estudio busca identificar las determinantes para la justificación de la violencia por el cambio social y por el control social en contexto de protesta. Dos conjuntos de posibles determinantes guían el estudio: justicia y caracteristicas sociodemográficas. Se argumenta que la justicia es la razón principal que determina las justificaciones de violencia. Se propone analizar una dimensión de justicia antes no explorada: la justicia distributiva. También, se busca retomar la posible influencia de distintas caracteristicas sociodemográficas. Este estudio tiene un alcance explicativo y exploratorio. Se usarán modelos de regresión líneal múltiple para los análisis, en conjunto a pruebeas de robustez para probar los modelos. Los resultados elaborados permitirán sentar bases para el estudio longitudinal de las justificaciones, así como para generar información de relevancia pública."
+---
+```{r eval=FALSE, include=FALSE}
+# for render in pdf run rmarkdown::render_site("docs/preanalisis.Rmd", output_format = "all")
+# clean #in the yml
+library(citr)
+rmarkdown::render("docs/Venegas-Martin-Seminario-Grado.Rmd", output_format = "bookdown::pdf_document2")
+rmarkdown::render("docs/Venegas-Martin-Seminario-Grado.Rmd", output_format = "bookdown::html_document2")
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE,message = FALSE, cache = FALSE,out.width = '85%',fig.pos= "H")
+# knitr::opts_knit$set(base.url = "../") #relative path for .html output file
+# knitr::opts_knit$set(root.dir = "../") #relative path for chunks within .rmd files
+options(scipen=999)
+rm(list=ls())
+options(knitr.kable.NA = '')
+options(knitr.graphics.error = FALSE)
+Sys.setlocale("LC_ALL", "ES_ES.UTF-8")
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE, echo=FALSE}
+pacman::p_load(knitr, kableExtra, dplyr, lavaan)
+```
+
+```{r echo=FALSE }
+table_format = if(is_html_output()) {
+  "html"
+} else if(is_latex_output()) {
+  "latex"
+}
+table_format2 = if(is_html_output()) {
+  T
+} else if(is_latex_output()) {
+  F
+}
+```
+
+```{r eval=FALSE, echo=FALSE}
+# Para obtener doble output (html/pdf) correr directamente en consola/terminal:
+rmarkdown::render('production/index.rmd', output_format = 'all',output_dir = ".")
+```
+
+```{r include=FALSE}
+#Determine the output format of the document
+outputFormat   = knitr::opts_knit$get("rmarkdown.pandoc.to")
+#Figure and Table Caption Numbering, for HTML do it manually
+capTabNo = 1; capFigNo = 1;
+#Function to add the Table Number
+capTab = function(x){
+  if(outputFormat == 'html'){
+    x = paste0("Tabla ",capTabNo,". ",x)
+    capTabNo <<- capTabNo + 1
+  }; x
+}
+#Function to add the Figure Number
+capFig = function(x){
+  if(outputFormat == 'html'){
+    x = paste0("**","Figura ",capFigNo,": ","**",x)
+    capFigNo <<- capFigNo + 1
+  }; x
+}
+```
+
+\pagebreak
+
+# Introducción
+La violencia es una de las paradojas de las democracias contemporáneas. Por un lado, es concebida como incompatible con el proceso democrático [@Magil2008] y con la convivencia pacífica [@Galtung1969]. Organismos internacionales como la Organización Mundial de la Salud (OMS) han puesto sus esfuerzos en la erradicación de la violencia en todas sus formas [@WHO2014; @WHO2010; @WHO2009]. Por otro lado, es utilizada como un medio para alcanzar la convivencia pacífica. Las sociedades modernas han centralizado y racionalizado el uso de la violencia a partir de la creación de distintas instituciones que buscan darle un uso eficiente [@Gerber2017]. Proceso denominado como democratización de la violencia [@Keane2004], el cual ha permitido un descenso histórico en sus niveles [@Elias2009; @Pinker2016]. No obstante, la democratización de la violencia no implica una erradicación absoluta, sino un planteamiento de los límites morales para su uso, dando como resultado la discusión sobre cuándo, cómo, dónde y por quién está justificado el uso de la violencia. En otras palabras, cuando es moralmente correcto utilizar la violencia. La paradoja de la violencia en democracia consiste en su rechazo a partir de su justificación.  
+  
+La justificación de la violencia tiene por consecuencia más violencia [@Copoeru2020; @Heitmeyer2005; @Kalmoe2014; @Lamnek2005; @Puga2016; @Rustad2016; @Stateva2009; @Webber2020; @Wilkstrom2009]. Esta relación ha sido denominada el ciclo de la violencia [@Bufacchi2007], donde su apoyo resulta en una cadena de sucesos que, a la larga, amenaza con romper el orden normativo de una sociedad. Este ciclo se ha explicado a través de dos mecanismos. El primero consiste en una relación activa entre la justificación y el acto violento: aquellos que justifican más la violencia son más propensos a ejercerla [@Ajzen2005; @Huesmann1997;  @Linke2015; @Markowitz2001]. El segundo se basa en una argumentación contraria: los humanos son incompetentes con el uso de la violencia [@Collins2008; @Collins2009] y, por ende, la relación entre justificación y comportamiento no está asegurada [Jackson2013; @Phillips2003]. La relación entre la justificación y el acto violento se daría de forma pasiva: justificar la violencia crea un clima de tolerancia que lleva a la inacción ante el alza de la violencia en una sociedad [@Kalmoe2014]. De esta manera, ya sea través de mecanismos activos o pasivos, la justificación de la violencia puede llevar a su incremento sostenido en una sociedad. Posicionarla como objeto de estudio es un avance hacia su prevención.  
+ 
+Distintas calificaciones se han usado en la literatura para expresar la complejidad que significa estudiar la violencia. Se le ha llamado un concepto borroso e inestable [@Mider2013], peligroso pero necesario [@Keane2004], multifacético [@Heitmeyer2005], esquivo y difícil [@Imbusch2005], confuso y subconceptualizado [@Stateva2009] o incomprendido [@Bufacchi2007]. Sin duda estas calificaciones no han sido infundadas. Numerosos enfoques, tipologías, definiciones e intentos de teorías generales son los que caracterizan el campo de estudios de la violencia. Esta bastedad de miradas ha significado una inconexión entre los aportes de cada disciplina. Las ciencias sociales han avanzado en el estudio de la violencia, pero muchas veces ignorando los aportes de la filosofía y las humanidades [@Back2004; @Bufacchi2007]. Es por eso que, si es que existe un consenso en la literatura, es la necesidad de una aproximación interdisciplinaria [@Arostegui1994; @Stateva2009; @Straus2020] e integral [@Bufacchi2009] que logre orientar una agenda de investigación que comprenda cuestiones tanto empíricas como normativas. Una serie de trabajos han aportado en esta línea [e.g. @Kurt2008; @Heitmeyer2005; @Bufacchi2009a]. Este estudio busca avanzar hacia esa agenda de investigación al proponerse explicar empíricamente un fenómeno caracterizado por su normatividad: las justificaciones de la violencia.  
+
+En el contexto chileno, la violencia ha sido parte importante del debate público durante la última década, especialmente a raíz del estallido social. Durante las movilizaciones estudiantiles del año 2011 la violencia tomó protagonismo como táctica de protesta a partir de la emergencia de grupos de manifestantes encapuchados. Distintos medios de prensa condenaron su uso, argumentando que el dañar infraestructura pública, transportes o lanzar piedras a carabineros no se justificaba como forma legítima de protesta. Así también, la represión policial aumentó y comenzó a ser ampliamente debatida. En el caso del conflicto entre el Estado y el pueblo Mapuche se ha visto una escalada en el uso de violencia de parte de ambos grupos [@Gerber2016; @Carruthers2009]. Las encuestas de opinión, en general, han mostrado una baja justificación de la violencia como táctica de protesta del pueblo Mapuche [Encuesta de Cohesión Social en Latinoamérica, en @Donoso2018; @Valenzuela2013], así como un rechazo a la brutalidad policial en la Araucanía. En el caso del estallido social del 2019, la cantidad de protestas que incluyeron hechos de violencia fue considerablemente mayor en contraste a conflictos anteriores, tales como el estudiantil o el del pueblo Mapuche [@Joignant2020]. Las encuestas muestran que las justificaciones de la violencia en contexto de protesta, ejercida tanto desde manifestantes como carabineros, han variado considerablemente el año 2019 [@ELSOC2019]. La población justifica menos la violencia utilizada desde carabineros, y más desde manifestantes [@ELSOC2019]. Esta alza ha llamado la atención de la opinión pública, abriendo espacios de discusión con distintos actores de la sociedad civil, la academia y la política. La preocupación está en las consecuencias que puede tener la potencial construcción de un clima de tolerancia a la violencia. Ante esto, emerge la pregunta ¿Cuáles son las determinantes para la justificación de la violencia?
+
+Existe una línea de investigación desde la criminología y la psicología que se ha desarrollado en torno a esta pregunta. Hay una larga tradición que ha estudiado el apoyo público a situaciones de violencia policial [ver @Belur2010 para recopilación]. Esta línea ha generado evidencia sistemática en torno a dos tendencias [@Thompson2004]: las justificaciones varían considerablemente en función de la pertenencia a grupos minoritarios (especialmente la raza), y las características del contexto son importantes. Investigaciones recientes han profundizado ambas tendencias. Primero, desarrollando una agenda de investigación en violencia intergrupal, entendiéndola como un instrumento que utilizan los grupos para lograr fines de cambio social o control social [@Gerber2017b]. Los predictores más relevantes en esta línea han sido valores autoritarios, legitimidad de autoridades, percepciones de justicia procesal e identificación del grupo [@Gerber2017a; @Gerber2017b; @Henry2005; @Jackson2013; @Perkins2006]. Segundo, reforzando la idea de que las justificaciones de violencia varían de acuerdo con cada contexto, a partir de experimentos [@Johnson2009] o validación de escalas [@Gerber2016]. En síntesis, la respuesta a la pregunta sobre las determinantes para la justificación se fragmenta en dos puntos: 1) la situación de violencia que se está justificando, 2) quién emite el juicio acerca de la situación. Aportes desde la criminología y la psicología social han generado una base sólida para el estudio empírico de las justificaciones de violencia.  
+
+Los aportes hasta ahora, si bien relevantes, son solo una parte de la historia. Con el fin de avanzar en la construcción de una agenda interdisciplinaria de violencia, en este estudio pretendo contribuir de tres formas. Primero, indagando en un gama más amplia de predictores para las justificaciones. Basándome tanto en los resultados de la agenda de violencia intergrupal, como en la reflexión filosófica que ha puesto a la justicia como principal razón para la justificación, profundizaré en el estudio de distintas dimensiones de la justicia. Especialmente, en lo que en sociología se ha llamado evaluaciones de justicia [@Jasso1980]. También, exploraré una serie de variables sociodemográficas (e.g. nivel socioeconómico, ideología política, educación etc.) con tal retomar una perspectiva sociológica en la agenda. Segundo, considerando que la justificación de la violencia es una evaluación situacional, este es el primer estudio que aborda las justificaciones de violencia de las protestas ocurridas durante el estallido social, convirtiéndolo en información inédita. Tercero, considerando la disponibilidad y calidad de los datos existentes actualmente, en este estudio pretendo sentar bases para el trabajo longitudinal en el estudio de justificaciones de violencia. Pese a que exploraré una serie de predictores, mi argumento principal será que las evaluaciones de justicia han jugado un rol sustancial en las justificaciones de violencia para el año 2019 en Chile.  
+
+Este estudio busca identificar las determinantes para la justificación de la violencia por el cambio social y por el control social en contexto de protesta. Entenderé la violencia como un concepto relacional que cuenta con al menos tres actores: perpetradores, victimas y espectadores [@Bufacchi2007]. Me centraré en los juicios que emiten espectadores acerca de situaciones en que la violencia es utilizada por manifestantes como táctica de protesta para generar cambios en la sociedad, o que es utilizada por carabineros como forma de reprimir la protesta, ejerciendo control social. Se hablará de violencia cuando la integridad de una víctima (e.g. manifestante) ha sido violada por la de un perpetrador (e.g. carabinero) causandole daño, o cuando un perpetrador (e.g. manifestantes) ha violado la integridad de un objeto (e.g. infraestructura pública) causando su destrucción. Los roles de perpetrador y victima son intercambiables dentro de la situación de violencia en la protesta. Además, entenderé la justificación como la presentación de razones por las cuales un acto de violencia puede ser considerado como moralmente correcto en una situación particular [@Frazer2019].  
+
+El escrito se estructurará en torno a tres preguntas [basadas en @Kluegel1981]. La primera sección responde a ¿Qué es lo que se justifica? Presentaré las principales aproximaciones existentes para definir violencia y los conceptos específicos para este estudio: la violencia por el cambio y por el control social. También describiré la idea de justificación. La segunda sección responde a ¿Qué guía esas justificaciones? Presentaré los argumentos y principios más relevantes de la discusión en filosofía y ética sobre la justificación de la violencia. La tercera sección tiene por objetivo presentar los argumentos teóricos y antecedentes empíricos sobre la pregunta ¿Qué determina las justificaciones? A partir de los cuales presentaré las hipótesis del estudio.  
+
+# Antecedentes empíricos y conceptuales
+
+## ¿Qué es lo que se justifica?
+Para estudiar las justificaciones de la violencia es necesario preguntarse ¿Qué es lo que se justifica? En este caso, la respuesta es: la violencia. Sin embargo, aún queda la interrogante ¿Qué es la violencia? En esta sección expondré los antecedentes teóricos, filosóficos y empíricos que permiten responder a esta pregunta, con tal de entender el concepto de violencia adoptado. Primero, sintetizaré las principales aproximaciones que hay para definir la violencia. Segundo, acotaré el concepto de violencia para el marco de este estudio. Tercero, definiré y presentaré las implicancias de estudiar las justificaciones de una acción. Al final de esta sección el lector podrá comprender las principales aproximaciones a la definición de la violencia, así como por qué este estudio adopta la definición intermedia.  
+
+### Aproximaciones a la definición de violencia
+El ejercicio de definir la violencia no está exento de controversias. Algunos señalan que la definición de violencia es un ejercicio político pues, la amplitud del término dependerá de la ideología de quien define [@Demirbas2019; @Stateva2009]. Otros señalan que la violencia es un concepto esencialmente moral [@Wilkstrom2009; @Back2004] y, por ende, una definición fuera de ese campo de discusión no puede considerarse como tal. Otros señalan que una definición de violencia es de lleno una empresa infructuosa, por lo que la adopción de una definición debe seguir una postura meramente convencionalista [@Arostegui1994]. Pese a estas dificultades, se han identificado y discutido tres grandes aproximaciones a las definiciones de violencia en la literatura [@Bufacchi2005; @Bufacchi2007; @Mider2013]. La primera se conoce como el enfoque minimalista (MCV, por sus siglas en inglés). La segunda se conoce como el enfoque comprehensivo (CCV, por sus siglas en inglés). Y la tercera se conoce como el enfoque intermedio (ICV, por sus siglas en inglés). Cada aproximación tiene sus ventajas y desventajas, las que se exponen a continuación.  
+
+Las definiciones que comprende el MCV entienden a la violencia como un acto de fuerza física intencional que causa daño en quien lo recibe. Por ejemplo, un sujeto que golpea a otro de manera intencional causándole daño físico. Este es el enfoque más recurrente, tanto en el sentido común, como en la investigación empírica y teórica. Su ventaja recae en qué, dada la estrechez de su definición, hace a la violencia un fenómeno fácilmente delimitable y abordable para la investigación empírica. Además, al incluir la idea de intencionalidad permite una discusión más clara sobre la evaluación moral del acto. Autores como @Keane2004 o @Coady2008 llaman a preservar este tipo de definiciones por su fácil operacionalización. Sin embargo, autores como @Galtung1969 o @Bufacchi2007 argumentan que delimitar la violencia hacia la fuerza física, la intencionalidad y el daño lleva a ignorar una serie de dimensiones de la violencia igualmente importantes, tales como la violencia psicológica, simbólica o estructural.  
+
+Como subrama del MCV existe una posición aun más estrecha: la legitimista. El enfoque legitimista sigue la misma línea que el MCV, pero añade la condición de que la fuerza física intencional debe ser ejercida por perpetradores no legítimos para ser considerada violencia. En otras palabras, restringe la definición de violencia hacia actores no estatales. De esta manera, las autoridades legitimas como policías o militares no cometen violencia, sino que hacen uso de la fuerza con tal de mantener el orden social. Esta postura ha sido defendida por autores como @Hook1976, caracterizando una visión conservadora sobre la violencia. Desde este punto de vista, dimensiones como la violencia institucional son de plano equivocadas. Por ende, desde este enfoque la violencia utilizada desde agentes privados es eminentemente peyorativa.  
+
+El CCV comprende definiciones que centran su foco en la violación. Violar significa la transgresión de un límite o norma [@Bufacchi2005; @Bufacchi2007]. La pregunta consiguiente es ¿qué es violado? Autores como @Gerd1969 responden definiendo la violencia como la violación de las primeras tres reglas morales: no matar, no causar daño, no deshabilitar. No obstante, la respuesta más común es la violación de derechos, como el derecho a la vida, a la seguridad etc. [@Copoeru2020]. Autores como @Demirbas2019 han sido más enfáticos en entender la violencia como la violación a los derechos humanos, dada su estrecha correlación con la realidad social y sus aplicaciones legales. La ventaja del CCV es que logra abarcar las dimensiones que la MCV dejaba de lado. La violencia no directamente visible, inserta en la estructura social, las instituciones o la cultura, lo que @Zizek2008 ha llamado violencia objetiva. Esta perspectiva prioriza la visión que tienen las víctimas de injusticias sobre la violencia, ya que son sus derechos los violados. En esa línea, @Galtung1969 define la violencia estructural como un sinónimo de injusticia estructural, es decir, un estado de injusticia que viola los derechos de quienes lo viven. Sin embargo, esto da pie a la desventaja de esta aproximación. Autores como @Bufacchi2005 plantean que el CCV puede ser demasiado omniabarcante, llevando a concebir la violencia como todo lo moralmente incorrecto y privándolo de su utilidad conceptual. La violencia pasa a ser un detector de injusticas más que un concepto con utilidad para la reflexión teórica, política y la investigación empírica [@Arostegui1994].  
+
+Los componentes principales del MCV son la fuerza, la intencionalidad y el daño, siendo una definición que se centra en el acto directo del perpetrador. El CCV se centra en la violación de los limites o las normas, usualmente de derechos, poniendo el foco en la vivencia de la víctima. Estas tradiciones han abierto la disyuntiva sobre a partir de quién definir la violencia, el perpetrador o la víctima. Ante este desacuerdo, en la literatura ha emergido el ICV. @Michaud1973, @Debarbieux1998 o @Caprioara2006 son los primeros antecedentes para entender la violencia como violación a la integridad. Sin embargo, es @Bufacchi2007 quien sistematiza esta postura, proponiendo que: 
+
+> Un acto de violencia ocurre cuando la integridad o unidad de un sujeto (persona o animal) u objeto (propiedad) está siendo violado intencional o no intencionalmente, como resultado de una acción u omisión. La violación puede ocurrir a nivel físico o psicológico, por medios físicos o psicológicos. Una violación de la integridad generalmente resultará en que el sujeto resulte dañado o lesionado, o que el objeto sea destruido o dañado. (p.43)  
+
+Esta definición propone resolver el enigma sobe qué tan estrecho o amplio debe ser el concepto de violencia [@Bufacchi2007]. El ICV define la violencia a partir de un tercer actor dentro de la relación: el espectador. Según @Bufacchi2007 el espectador de una situación violenta es quien elabora los juicios morales para su justificación, lo que permite una evaluación imparcial y, por ende, una puerta de entrada al estudio de las justificaciones de violencia. Esta es la primera razón por la que este estudio toma como punto de partida la violencia como violación a la integridad.  
+
+Otro aspecto importante es que el ICV comprende la destrucción de la propiedad dentro del concepto de violencia. Esto ha sido un tema polémico en la reflexión teórica. Algunos autores [e.g. @Keane2004; @Wells1970] consideran que incluir la noción de propiedad en la violencia es de plano una contradicción en los términos. La violencia experimentada por un ser humano nunca es equiparable a la de un objeto [@Wells1970]. Otros autores [e.g. @Galtung1969] han actuado de punto medio, aceptando que la destrucción de la propiedad puede causar impactos psicológicos, pero sigue siendo distinto en comparación al daño del ser humano. Por último, está la postura que proponen a la propiedad como elemento importante dentro del concepto de violencia [e.g. @Mansley2013]. En aras de plantear un concepto de violencia analíticamente útil y lo más imparcial posible es que el ICV introduce a la propiedad dentro de su definición. Esta es la segunda razón por la que este estudio toma como punto de partida la violencia como violación a la integridad.  
+
+### Violencia instrumental, intergrupal y situaciones de protesta
+Dentro de las numerosas tipologías que existen [e.g @Imbusch2005; @Galtung1969], una de las formas de conceptualizar la violencia es entendiéndola como un fenómeno instrumental [@Arendt2005]. En esa línea se inserta el estudio de la violencia intergrupal, donde el foco está puesto en la violencia como un medio para el logro de objetivos en el marco del conflicto entre grupos. En esta literatura se han elaborado dos conceptos importantes: la violencia para el cambio social (en adelante, VCaS) y violencia para el control social (en adelante, VCoS). El primer trabajo en proponer estos conceptos y estudiarlos de forma empírica fue @Blumenthal1972, entendiendo la VCaS como el uso de la violencia como un medio para el logro de objetivos sociales y políticos, y la VCaS como el uso de la violencia para la mantención del estatus quo. A partir @Blumenthal1972 diversos estudios han trabajado la justificación de la violencia, aunque no siempre llamándolo de la misma manera. Los símiles más utilizados han sido actitudes hacia la violencia [e.g. @Rustad2016; @Rose2016] y apoyo público al uso de la fuerza policial [e.g. @Arthur1994; @Gamson1970; @Johnson2009]. Recientemente, @Gerber2017a han propuesto una definición detallada sobre la VCaS y la VCoS. Por un lado, se entiende la VCoS como “aquellas situaciones en donde la violencia es ejercida por grupos dominantes-mayoritarios por sobre grupos subordinados-minoritarios o cuando el objetivo de la violencia es el de reducir el potencial cambio en las estructuras normativas o jerárquicas de la sociedad” [@Gerber2017a , pp. 3-4, traducción mía]. En cambio, la VCaS corresponde a “aquellas situaciones en donde la violencia es ejercida por grupos subordinados-minoritarios por sobre grupos dominantes-mayoritarios o cuando el objetivo de la violencia es crear cambios en la estructura jerárquica o normativa de la sociedad [@Gerber2017a, p.4, traducción mía].  
+
+Ambos tipos de violencia cuentan con diversas variantes. La VCoS se subdivide en torno a la dicotomía privado-público. En el caso de la VCoS privada existe una literatura en psicología que se ha centrado en actitudes hacia el castigo y la justificación de linchamientos por parte de la ciudadanía [e.g. @Gerber2012; @Gerber2016; @Puga2016]. Para el caso de la VCoS pública se ha acuñado el concepto de violencia institucional. Esta se entiende como las medidas que toma el Estado para reprimir principios de libertad y justicia con el fin de mantener el orden social [@Nielsen1981]. Según @Puga2016 la violencia institucional se divide en castigos penales y en la violencia ejercida por agentes del orden. Por otro lado, la VCaS cuenta con dos grandes divisiones: violencia revolucionara y violencia dentro del Estado para el cambio social [@Nielsen1981]. La violencia revolucionaria se refiere al uso de la violencia para lograr cambios estructurales a nivel político, social y económico. Trabajos como los de @Nielsen1977, @Sune2010 y más recientemente @Edyvane2020 han discutido la justificación de la violencia revolucionaria. La violencia dentro del Estado para el cambio social apunta a la generación de cambios que no buscan la transformación total en el corto plazo. Recientemente @Gerber2017 y @Jackson2013 han trabajado esta línea. En resumen, dentro del estudio de la violencia instrumental entre grupos, la distinción entre VCoS y VCaS ha sido considerablemente trabajada.  
+
+Existen distintas formas por las que la violencia puede ser utilizada como instrumento. Por ejemplo, terrorismo, guerras civiles, protesta, entre otros. En el caso de la protesta, la literatura de movimientos sociales y política contenciosa ha trabajado en torno a la violencia como parte de la formación de repertorios de acción [@Tarrow1997; @Tilly2015] y en la conceptualización de la violencia colectiva [@Tilly2003], la violencia policial [@Porta1998] y violencia política [@Porta2006]. Según @Hartmann2017 esta es una de las tres grandes líneas que han emergido en el estudio sociológico de la violencia. En el caso de América Latina y Chile la violencia ha sido conceptualizada como una táctica de protesta a partir de los trabajos de @Medel2016 y recientemente reforzados en @Joignant2020. En estos se ha desarrollado una tipología de los tipos de tácticas de protesta: convencionales, culturales, disruptivas y violentas. Las acciones comprendidas dentro de una táctica violenta incluyen huelgas de hambre, quema de edificios, predios o transporte, destrucción de propiedad pública y confrontación directa entre manifestantes y fuerzas policiales [@Medel2016]. Esta tipología permite comprender las acciones que componen la VCaS, con tal de esclarecer su estudio empírico.  
+
+### Definiendo justificación
+En sociología, los trabajos de @Boltanski2006 y @Boltanski2017 han trabajado el concepto de justificación, desarrollando una teoría aplicable a distintos ámbitos de la sociedad. Sin embargo, para el caso de la violencia la mayoría de la discusión teórica viene desde la filosofía y la ética. El punto más importante acerca la justificación de la violencia es que es un fenómeno situacional.  Justificar significa emitir razones por las cuales una acción violenta puede ser considerada moralmente correcta en un contexto determinado [@Frazer2019]. En la discusión filosófica y ética, la investigación ha girado en torno a las condiciones que deben cumplirse para que el acto violento sea moralmente defendible [@Demirbas2019; @Frazer2019; @Gerd1969; @Hills2011; @Keane2004; @Magil2008; @Nielsen1981; @Wells1970]. Por ejemplo, las discusiones en torno al argumento *ticking bomb* [ver @APT2007; @Bufacchi2006] o al asesinato de Hitler [ver @Dean2005; @Frazer2019]. En otras palabras, existen ciertas características de la situación que harían más propensos a la gente a justificar la violencia. La investigación empírica ha sustentado esta idea investigando las variaciones en las situaciones de violencia. Por ejemplo, @Gerber2017b han estudiado las diferencias en la justificación de la violencia policial dependiendo si esta se considera acorde o excesiva. @Perkins2006 han puesto el foco en la variación del número de policías en una situación violenta. @Thompson2004 destacan la percepción de si el policía se encuentra en riesgo inminente. @Johnson2009 han estudiado la aprobación de la violencia policial en función de la raza del delincuente. En consiguiente, la reflexión filosófica y la investigación empírica han puesto atención en las condiciones que presenta una situación para que pueda justificarse o, en otras palabras, que sea moralmente correcta.  
+
+## ¿Qué guía esas justificaciones?
+Una vez delimitado el qué significa la violencia, qué tipos de violencia se trabajarán y la situación específica que será puesta en evaluación, es relevante conocer cuáles son los argumentos y principios que guían la justificación de la violencia. En esta sección, presentaré los principales argumentos con los que se justifica la violencia y una serie de principios que buscan regular cuándo y cuánta violencia es aceptada.  
+
+### Argumentos
+Uno de los argumentos más conocidos y discutidos para la justificación de un acto de violencia es el consecuencialista [@Basaure2020; @Bufacchi2007; @Frazer2019; @Hills2011; @Magil2008; @Runkle1976; @Oboyle2002]. El argumento consecuencialista dicta que un acto de violencia es moralmente correcto si es que sus consecuencias traen mayor bien, o logran evitar un mal mayor. Se puede sintetizar en el dicho común: el fin justifica los medios. El también conocido como modelo instrumental se basa en el cálculo racional del sufrimiento [@Bufacchi2007; @Nielsen1981; @Runkle1976], donde se asignan unidades de sufrimiento (e.g muertes) en función de evaluar moralmente el acto. La justificación es exitosa si la violencia utilizada no transgrede el margen de los beneficios que trae [@Basaure2020]. Por ejemplo, si gracias a un acto de violencia muere una persona en una situación donde originalmente morirían cinco, ese acto es justificable desde el consecuencialismo. Sin embargo, el argumento consecuencialista ha sido ampliamente criticado por su incertidumbre. @Bufacchi2007 plantea que la justificación a partir de los fines hace más probable que se desencadene el ciclo de violencia. @Frazer2019 han destacado el ambigüedad temporal del consecuencialismo. Según estas autoras existe una diferencia entre justificar el acto conociendo las consecuencias (expost) y justificarlo sin conocerlas (exante). Recientemente, @Basaure2020 ha profundizado en las críticas tomando elementos de la teoría social. Según el autor, el argumento consecuencialista cae en un sesgo objetivista que lleva a no considerar los posibles cambios en la situación a partir de la subjetividad de los actores. Por ende, las predicciones sobre los beneficios esperados podrían alterarse. En suma, si bien el argumento consecuencialista es uno de los más discutidos y aceptados, cae en una serie de supuestos para su uso.  
+
+Otro de los argumentos dentro de la discusión es aquel que plantea que la violencia nunca se justifica: el deontológico. El argumento deontológico propone que la evaluación moral de los actos se debe basar en principios universales inquebrantables. Existen una serie de reglas morales que todo ser humano racional ha de seguir para alcanzar la convivencia pacífica, tales como: preservar siempre la vida, no matar, ser siempre honesto, no hacer trampas etc. [@Hills2011]. En contraste al argumento consecuencialista, el deontológico ignora las consecuencias del acto violento, inclusive si es que estas traen mayores beneficios. No obstante, autores como @Oboyle2002 o @Magil2008 han planteado que el argumento deontológico es insostenible, especialmente cuando emergen casos complejos. Según @Oboyle2002, detrás de cada deontológico hay un poco de consecuencialismo, por ejemplo, cuando se trata de la autodefensa [@Magil2008]. En síntesis, el argumento deontológico aspira a la universalidad para la evaluación moral, aunque se vuelve difícil de sostener ante situaciones complejas.  
+
+El argumento consecuencialista y el deontológico son los dos grandes argumentos contrarios en la teoría ética. Sin embargo, no son los únicos que se han esbozado en la discusión sobre la justificación de la violencia. Existen otros dos argumentos: el argumento por la necesidad y el argumento por la virtud. El argumento por la necesidad conlleva la premisa de que existen situaciones en que la violencia no es una opción, sino que es una necesidad para la supervivencia. En otras palabras, la involucración en el acto violento es inminente [@Frazer2019]. Según @Frazer2019 el argumento por la necesidad se basa en que la sociedad es sostenida por la violencia y, por ende, cualquier aspiración de cambio social por vías no violentas es casi fantasiosa. En cambio, el argumento por la virtud tiene sus raíces en propuestas de autores clásicos como @Sorel1999, @Fanon1963 y @Merleau-Ponty1969. Su premisa es que la violencia es justificable si con ella el perpetrador puede reestablecer su identidad como una persona igualmente de valida que otros (i.e. en el caso de personas que han vivido injusticias). Es una visión de la violencia que pretende devolverle la virtud a quien se la fue arrebatada, aunque algunos autores señalan que esta visión puede tender a glorificar la violencia [@Bufacchi2007; @Frazer2019]. De esta forma, existen cuatro argumentos distinguibles entre sí para la discusión sobre las justificaciones de violencia: consecuencialista (o instrumental), deontológico, por necesidad y por virtud.  
+
+### Principios
+Los argumentos presentados permiten una entrada a la discusión sobre la justificación de la violencia. No obstante, la violencia no es un absoluto, sino una cuestión de grados y condiciones. La discusión se complejiza con las preguntas; ¿Cuánta violencia usar?, ¿cuándo usarla? En la literatura filosófica existe una teoría a partir de la cual se han reflexionado estas preguntas: la teoría de la guerra justa. Esta propone una serie de condiciones por las cuales una guerra puede ser considerada justa. Las condiciones se dividen en dos dimensiones: razones para la guerra (*jus ad bellum*) y conducción de la guerra (*jus in bellum*). Los principios de la primera dimensión dictan que: 1) la guerra debe librarse por una causa justa, 2) debe combatirse por esa causa y no otra, 3) debe haber proporcionalidad y una probabilidad razonable de éxito, 4) la decisión de guerra debe tomarla una autoridad legítima, 5) debe existir una declaración formal de guerra y 6) la guerra debe ser el último recurso. Para la segunda, existen dos principios: el de inmunidad para los no combatientes y la proporcionalidad en el campo de batalla [@Dean2005, @Hills2011]. Autores como @Wells1970, @Dean2005 o @Bufacchi2007 han argumentado en favor de la aplicabilidad de estos principios para las situaciones de violencia.  En consiguiente, la teoría de la guerra justa ha servido como punto de partida para la discusión sobre las condiciones para justificar la violencia.  
+
+Si bien los principios que se han planteado para las situaciones de violencia toman como punto de partida la teoría de la guerra justa, no son exactamente los mismos. @Bufacchi2007 ha sistematizado la discusión proponiendo seis principios: fundamental, autodefensa, éxito razonable, proporcionalidad, último recurso y progresión gradual (Tabla 1.). El Principio Fundamental es la base para la aplicación de los demás principios. Dicho de otro modo, antes de pensar cualquier condición posible para la justificación, debe primar el respeto a la vida. Los demás principios se van evaluando de acuerdo con la situación.  
+
+\begin{center}
+Tabla 1. Principios para la justificación de la violencia  
+\end{center}
+
+| Principio          | Descripción                                                                                                             |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------|
+| Fundamental        | El uso de la violencia debe tomar como punto de partida el respeto a la vida y dignidad de las personas en todo momento |
+| Autodefensa        | La violencia se justifica en respuesta a la violencia ejercida desde un agresor.                                        |
+| Éxito razonable    | La violencia se justifica cuando hay una probabilidad razonable de éxito.                                               |
+| Proporciona- lidad   | La violencia se justifica cuando es proporcional a la violencia que está contrarrestando                                 |
+| Último recurso     | La violencia se justifica cuando se han agotado las posibilidades de alternativas pacíficas.                            |
+| Progresión Gradual | El uso de la violencia debe comenzar por la mínima cantidad y aumentar gradualmente.                                    |
+\begin{center}
+Fuente: elaboración propia a partir de Bufacchi (2007)  
+\end{center}
+
+Para el caso de este estudio, los principios para la justificación de la violencia son relevantes dada su aplicación legal. Los protocolos de las fuerzas del orden en Chile presentan una serie de principios que carabineros debe seguir cuando ejerce sus funciones. A la fecha, son cuatro los principios básicos: Principio de Legalidad, Principio de Necesidad, Principio de Proporcionalidad y Principio de Responsabilidad [@Fernandez2019]. El Principio de Legalidad señala que todo uso de la fuerza debe estar dentro del marco de la ley [@Fernandez2019]. El Principio de Necesidad se basa en el que se ha presentado acá como el Principio del Último Recurso. El Principio de Proporcionalidad es idéntico al presentado acá. Y el Principio de Responsabilidad dicta que cualquier uso de la fuerza fuera de la ley conllevará las responsabilidades individuales (e.g. carabinero) y de mando (e.g. superior del carabinero) correspondientes. En el caso de la protesta, existe un protocolo específico para el uso de técnicas de control de orden público [@Fernandez2019], el cual se sustenta en el Principio de Gradualidad y el Principio de Autodefensa aquí presentados. De esta manera, la discusión sobre la justificación de la violencia ha logrado sistematizar una serie de principios que ayudan a determinar cuando un acto de violencia se justifica. Estos principios tienen una aplicación legal en tanto guían el actuar policial, especialmente en contexto de protesta.  
+
+## ¿Qué determina las justificaciones?
+Una vez entendido qué es la violencia, y cuáles son los argumentos principales para justificarla es que estamos en condiciones para preguntarnos por sus determinantes. En esta sección presentaré los antecedentes que permitan entender la importancia de la justicia en las justificaciones de violencia. También, expondré los antecedentes existentes para la exploración de una variedad de características sociodemográficas. Al final de esta sección se listarán las hipótesis del estudio.  
+
+### Justicia
+Al igual que la violencia, la justicia es un concepto ambiguo y complejo. Es necesario exponer claramente qué implica y cómo es posible estudiarla. Primero, la justicia es un estado de convivencia ideal. @Liebig2016 [p.38] señalan que un estado de justicia comprende tres componentes: 1) igualdad de trato, o sea, las personas deben ser tratadas igualitariamente independiente de sus características individuales; 2) imparcialidad, o sea, las situaciones de conflicto de intereses deben resolverse a partir de reglas que impliquen un punto de vista imparcial; y 3) consideración de reclamos legítimos, o sea, los individuos deben ser tratados de acuerdo con lo que merecen. Segundo, la justicia es un fenómeno dinámico. Tres afirmaciones sobre la justicia ayudan a entender esta noción: 1) la justicia es un valor social, en tanto describe las formas deseadas de distribución de recursos en una sociedad; 2) la justicia está determinada socialmente, porque las concepciones de lo justo dependen de las estructuras y procesos sociales; y 3) la justicia es una fuerza social, porque afecta las estructuras y los procesos sociales [@Liebig2016, p.38]. Entendiendo la justicia como fuerza social es que numerosos estudios empíricos han demostrado que experimentar injusticia tiene efectos en las actitudes y el comportamiento, lo que conlleva consecuencias en las estructuras y procesos de una sociedad [@Liebig2016, p.38]. Para el caso de la violencia esta relación se podría expresar en el ciclo de violencia. De esta forma, la justicia se puede concebir como una fuerza que determina las actitudes, siendo una de ellas la violencia. 
+
+En la literatura se ha documentado a la justicia como la razón principal para la justificación de la violencia [i.e. @Runkle1976; @Dean2005; @Magil2008; @Galtung1969; @Nielsen1981; @Bufacchi2007; @Wells1970; @Stateva2009; @Frazer2019]. En el campo de teoría política, autores clásicos como Honderich, Sorel y Locke argumentaron a favor de esta relación. @Honderich2014 señaló que la violencia es un medio justificable cuando se utilizada para alcanzar un estado de igualdad. @Sorel1999 argumentó que la violencia permite recobrar la identidad arrebatada ante las injusticias vividas. Locke [en @Frazer2020] señaló que la violencia es justificable cuando un gobernante se convierte en agresor y genera un estado de injusticia entre sus habitantes. Otros autores en el campo de la filosofía también han argumentado a favor de esta relación. Para @Wells1970 la existencia de un estado de injusticia que causa sufrimiento en quienes lo viven es la razón número uno para la justificación de la violencia. @Reitan2002 señala que, dentro de una situación de violencia interpersonal, la primera condición para justificar una respuesta violenta es que la agresión del perpetrador sea injusta. @Magil2008 argumenta que cuando las mayorías se comporten injustamente con las minorías, la violencia puede ayudar a rectificar la situación. @Nielsen1981 señala que, ante detenciones policiales injustas, la resistencia violenta es justificable. Benjamin [en @Stateva2009] argumenta que la violencia es justa si es que está del lado de los oprimidos. Ante esta relación tan estrecha entre la violencia y la justicia, @Bufacchi2007 propone que la violencia es el punto de partida para reflexionar la justicia, ya que se basan en el mismo mecanismo: la humillación del oprimido por parte de las mayorías. En suma, la justicia -y específicamente, experimentar injusticia- es la principal razón por cual la violencia puede ser justificada.  
+
+La investigación empírica ha dado sustento a la relación entre justicia y justificación de la violencia, pero variando de acuerdo con el fin de la violencia (i.e. VCoS y VCaS). Para el caso de la VCoS, @Blumenthal1972 halló que el valor de la justicia retributiva está fuertemente relacionado a la justificación de la violencia policial. Sujetos que consideran que la pena debe ser proporcional a la ofensa justifican más la violencia de parte de la policía. Más recientemente, @Puga2016 han dado sustento a este hallazgo, encontrando que la justificación para la represión policial está determinada por la preocupación de aumentar la sensación de justicia en una sociedad. Individuos que consideran que el castigo al perpetrador es una forma de traer justicia son más propensos a justificar la violencia policial. @Jackson2013 han encontrado que la justicia procesal está correlacionada con la legitimidad de la policía, y esta con actitudes negativas hacia la violencia. Es decir, la creencia de que los procedimientos aplicados por la policía son justos lleva a su legitimación, y una policía legitimada conlleva una mayor justificación de la violencia ejercida por agentes del orden. En esta misma línea, @Gerber2017a han generado más evidencia en favor de la relación entre justicia procesal y justificación de la violencia en el contexto del conflicto indígena (Mapuche). Percepciones de actuación policial procesalmente justa predice mayor justificación de la violencia policial, y menos justificación a la violencia desde el pueblo Mapuche. De esta forma, tanto la justicia procesal como la justicia retributiva tienen evidencia a su favor como predictores para la justificación de la violencia policial, en este caso entendida como VCoS.
+
+La relación entre la justicia y VCaS en la literatura empírica se puede intuir a partir de una de las mayores tendencias en la literatura criminológica: los grupos minoritarios tienden a justificar menos la violencia policial y a favorecer más la violencias asociada a la resistencia y al cambio [@Thompson2004]. En otras palabras, los grupos minoritarios tienden a justificar la VCaS dado que experimentan mayor injusticias. Sin embargo, este planteamiento deja la brecha abierta sobre cuál es la experiencia de injusticia. Además de la aplicación de los tipos de justicia ya señalados, la literatura sobre desigualdad y violencia política permite profundizar en la relación entre justicia y violencia [ver @Ostby2013 para revisión]. Como punto de partida, la teoría de la deprivación relativa de @Gurr1970 plantea que la violencia aumenta cuando los ciudadanos viven una situación demasiado lejana a la deseada. En otras palabras, las desigualdades tienen un impacto en la existencia de violencia. Recientemente, @Rustad2016 ha profundizado en esta relación trabajando con variables a nivel subjetivo, es decir, percepciones de desigualdad y actitudes hacia la violencia. Los resultados de @Rustad2016 muestran que las personas que se perciben a sí mismas como desfavorecidas, tienden a apoyar la violencia para generar cambios. Así, desde la literatura de desigualdad y violencia política, se abren las puertas para pensar otra dimensión de la justicia en relación con las justificaciones de violencia: la justicia distributiva.  
+
+A grandes rasgos, la justicia distributiva se refiere a la distribución de recursos y recompensas en una sociedad. En contraste a la justicia procesal y retributiva que tratan sobre los procedimientos legales y la relación ofensa-castigo, la justicia distributiva tiene por premisa que los recursos y recompensas sean distribuidos de manera justa. Existen distintos principios para señalar qué es lo justo en la distribución de los recursos y recompensas [e.g. @Leventhal1980], pero no es tarea de este estudio profundizar en ello. En cambio, se busca profundizar en la relación entre experiencia de justicia y justificación de la violencia al estudiar las evaluaciones de justicia distributiva. La evaluación de justicia distributiva es un concepto elaborado por @Jasso1980 para estudiar los sentimientos de justicia sobre distintos tipos de recompensas a partir de una función matemática que facilite las pruebas en la investigación empírica.
+
+En síntesis, la reflexión filosófica ha puesto a la justicia como principal determinante para la justificación de la violencia. Bajo ese punto de partida, es necesario determinar la relación entendiendo la violencia como fenómeno instrumental. Para el caso de la VCoS, existen antecedentes para argumentar que a mayor percepción de justicia procesal y a mayor sentido de justicia retributiva, los individuos tienden a justificar más la violencia. Para el caso de la VCaS, se puede intuir que, dado que grupos minoritarios tienden a justificar más la violencia, la experiencia de injusticia que va asociada a esos grupos podría estar relacionada a la justificación. No obstante, aún queda la interrogante sobre qué tipo de injusticia es la que se está experimentando. Además de la posible aplicación de la justicia procesal y retributiva, la literatura sobre desigualdad y violencia política abre las puertas a pensar en el rol de la justicia distributiva. Con el fin de estudiar la relación entre la experiencia de injusticia distributiva con la justificación de la violencia, se utilizará el concepto de evaluación de justicia de @Jasso1980 dada su fácil aplicación empírica. Las hipótesis que se extraen de esta argumentación, tanto de los antecedentes ya existentes, como de esta nueva propuesta, son los siguientes:  
+
+**$H_1a$:** Los individuos que perciban mayor justicia procesal, justificarán más la violencia por el control social.  
+
+**$H_1b$:** Los individuos con mayor evaluación de justicia distributiva, justificarán más la violencia por el control social.  
+
+Con el fin de analizar las diferencias de acuerdo con el tipo de violencia, se probarán las hipótesis contrarias:  
+
+**$H_1c$:** Los individuos que perciban menor justicia procesal, justificarán más la violencia por el cambio social. 
+
+**$H_1d$:** Los individuos con menor evaluación de justicia distributiva, justificarán más la violencia por el cambio social.  
+
+### Características sociodemográficas
+Distintos trabajos dentro de la literatura en justificación de la violencia han indagado la influencia de variables sociodemográficas. Si bien @Blumenthal1972 halló que las variables sociodemográficas, en general, eran débiles predictores para la justificación de la violencia, los estudios hasta la fecha han generado distintos resultados. Los antecedentes sustentan el ejercicio de retomar y explorar las siguientes variables: ideología política, nivel socioeconómico, educación,  y sexo.  
+
+En el caso de la ideología política, @Puga2016 han mostrado que la justificación de la violencia en contra de personas que han cometido delitos es mayor en individuos de derecha e individuos que no cuentan con ninguna posición política. En la misma línea, los hallazgos de @Gerber2017b sugieren que individuos asociados a ideologías políticas de derecha tienden a justificar más el uso excesivo de la fuerza por parte de carabineros. También, @Gerber2017 aporta a los resultados anteriores encontrando que personas que se autoidentifican con la derecha tienden a apoyar más la VCoS. Estos antecedentes llevan a plantear la siguiente hipótesis:  
+
+**$H_2a$:** Individuos que se autoidentifiquen con la derecha tenderán a justificar más la violencia por el control social  
+
+A modo de explorar el contraste con estos hallazgos, se plantea que:
+
+**$H_2b$:** Individuos que se autoidentifiquen con la izquierda tenderán a justificar más la violencia por el cambio social.  
+
+En lo que respecta al nivel socioeconómico, los resultados de @Puga2016 muestran que individuos de niveles socioeconómicos medio-altos tienden a justificar más la violencia policial. También, @Arthur1994 han generado evidencia para señalar que los individuos de mayor estatus social y privilegiados tienden a justificar más la violencia policial. Los hallazgos de @Gerber2017 han demostrado que individuos de clase alta tienden a apoyar más la violencia policial. Estos antecedentes llevan a plantear las siguientes hipótesis:  
+
+**$H_2c$:** Individuos de nivel socioeconómico alto tenderán a justificar más la violencia por el control social  
+
+A modo de contraste, se probará la siguiente hipótesis:  
+
+**$H_2d$:** Individuos de nivel socioeconómico bajo tenderán a justificar más la violencia por el cambio social  
+
+En el caso de la educación, los antecedentes son menos esclarecedores. @Gamson1970 encontraron que las personas más educadas tendían a justificar menos la violencia policial. Los hallazgos de @Blumenthal1972 siguen esa misma relación. Sin embargo, los resultados de @Briceno-Leon2007 muestran que las personas con educación formal universitaria tienden a apoyar más el derecho a matar por fuera de la ley. Ante esto, la educación no llevará hipótesis asociada, pero si se incluirá en la exploración. 
+
+Por último, en el caso del sexo, @Arthur1994 han encontrado que las mujeres tienden a justificar menos el uso de la fuerza por parte de la policía. Relación que se ha reforzado a partir de estudios como los de @Thompson2004 y @Gerber2016. En consiguiente, se plantea la siguiente hipótesis:  
+
+**$H_2e$:** Las mujeres tenderán a justificar más la violencia por el cambio social  
+
+También, @Arthur1994, @Gerber2017 y @Johnson2009 han generado evidencia para la relación contraria, lo que lleva a probar la siguiente hipótesis:
+
+**$H_2f$:** Los hombres tenderán a justificar más la violencia por el control social  
+
+# Pregunta, objetivos e hipótesis  
+
+La presente sección sintetiza la pregunta, el objetivo general y los objetivos específicos que guían este estudio. Además, se listan las hipotesis con fines esquemáticos.  
+
+## Pregunta:  
+¿Cuáles son las determinantes para las justificaciones de violencia por el orden social y por el cambio social en contexto de protesta, por parte de la población chilena al año 2019?  
+
+## Objetivo General:  
+Identificar las determinantes para las justificaciones de violencia por el orden social y por el cambio social en contexto de protesta, por parte de la población chilena al año 2019  
+
+## Objetivos específicos:  
+
+-	Analizar la incidencia de la experiencia de justicia en las justificaciones de violencia por el orden social y el cambio social en contexto de protesta, en la población chilena al año 2019  
+
+-	Explorar la incidencia de las características sociodemográficas en las justificaciones de violencia por el orden social y el cambio social en contexto de protesta, en la población chilena al año 2019  
+
+-	Analizar las diferencias del efecto de las determinantes entre la violencia para el cambio social y la violencia en contexto de protesta, en la población chilena al año 2019  
+
+## Hipótesis  
+
+### Justicia  
+- **$H_1a$:** Los individuos que perciban mayor justicia procesal, justificarán más la violencia por el control social.  
+- **$H_1b$:** Los individuos con mayor evaluación de justicia distributiva, justificarán más la violencia por el control social.     
+- **$H_1c$:** Los individuos que perciban menor justicia procesal, justificarán más la violencia por el cambio social. 
+- **$H_1d$:** Los individuos con menor evaluación de justicia distributiva, justificarán más la violencia por el cambio social. 
+
+### Caracteristicas sociodemográficas  
+-	**$H_2a$:** Individuos que se autoidentifiquen con la derecha tenderán a justificar más la violencia por el control social  
+-	**$H_2b$:** Individuos que se autoidentifiquen con la izquierda tenderán a justificar más la violencia por el cambio social.  
+-	**$H_2c$:** Individuos de nivel socioeconómico alto tenderán a justificar más la violencia por el control social  
+-	**$H_2d$** Individuos de nivel socioeconómico bajo tenderán a justificar más la violencia por el cambio social  
+-	**$H_2e$** Las mujeres tenderán a justificar más la violencia por el cambio social  
+-	**$H_2f$** Los hombres tenderán a justificar más la violencia por el control social  
+
+# Método
+
+## Datos
+Este estudio se basa en la información proporcionada por la base de datos del Estudio Longitudinal Social de Chile (ELSOC) del Centro de Estudios de Conflicto y Cohesión Social (COES). Estos datos son de tipo panel de aplicación anual a dos muestras independientes, una original y otra de refresco. El cuestionario contiene módulos de preguntas permanentes en todas las olas y otras intercaladas. El diseño muestral es complejo, probabilístico, por conglomerados, multietápico y estratificado según el tamaño de las ciudades. El objeto de análisis son hombres y mujeres entre 18 y 75 años en zonas urbanas, localizadas en 40 ciudades del país (92 comunas y 13 regiones). La unidad de información a utilizar son los encuestados correspondientes al año 2019 (n muestra original = 2135, n muestra refresco = 1264). A modo de énfasis, este estudio ocupara solamente los datos para la ola del 2019.  
+
+## Variables  
+
+### Variables dependientes
+Las dos variables dependientes del estudio corresponden a la distinción de la violencia instrumental: la violencia por el cambio social (VCaS) y la violencia por el control social (VCoS). Se utilizarán seis indicadores que buscan representar los conceptos, dos para la (VCoS) y cuatro para la (VCoS). Los indicadores señalados en la Tabla 2 responden a la pregunta *¿En qué medida cree usted que se justifican o no se justifican las siguientes situaciones?*. Los indicadores de VCoS se centran en la fuerza ejercida por carabineros. Los indicadores de la VCaS consisten en la violencia como táctica de protesta, específicamente, lanzar piedras a carabineros y la destrucción a la propiedad. Todos los indicadores están medidos con una escala Likert de cinco categorías, que van desde la aseveración de que la violencia nunca se justifica, hasta que siempre se justifica.
+
+En lo que respecta a mediciones, se utilizarán indices sumativos por cada variable dependiente. En el caso de la VCoS, se sumarán los puntajes de los dos indicadores relacionados a carabineros. En el caso de la VCaS, se sumarán los puntajes del lanzamiento de piedras y la destrucción a la propiedad, bajo el argumento de que ambas acciones han sido conceptualizadas como tácticas de protesta violentas [@Medel2016]. Los puntajes variarán entre un mínimo de dos puntos, y un máximo de diez puntos. A mayor puntaje, mayor justificación de la violencia.
+
+```{r include=FALSE}
+cap1 <- "Variables dependientes."
+# if (knitr::is_html_output()) {tb <- table_nums("tb",cap)} else {tb <- cap}
+```
+
+```{r table-dependientes, echo=FALSE}
+tab01 <- read.csv(file = "../input/other/table01.csv",header = 1,sep = ";",encoding = "UTF-8")
+cnames <- c("Concepto","Indicador", "Categorías de respuesta")
+kable(tab01,table_format,booktabs = T, linesep = "",col.names = cnames, caption = cap1) %>%
+  kable_styling(
+    full_width = T,
+    latex_options = c("hold_position"),
+    position = "center",
+    font_size = 10,
+    bootstrap_options=c("striped", "bordered")) %>%
+  column_spec(column = 1, width = "2 cm", ) %>%
+  column_spec(column = 2,width = "7 cm") %>%
+  column_spec(column = 3,width = "4 cm") %>%
+  collapse_rows(columns = 1:2,valign = "middle")
+```
+
+\begin{center}
+Fuente: elaboración propia
+\end{center}
+
+### Variables independientes
+
+Las variables independientes de hipótesis para este estudio se dividen en dos: relacionadas a la justicia y sociodemográficas. En el caso de justicia (ver Tabla 3), se trabajará con dos variables. Primero, el sentido de justicia procesal. Esta será operacionalizada en dos indicadores que responden a la pregunta *¿Con cuánta frecuencia diría usted que personas de [grupo o clase social mencionado por el entrevistado] son tratadas con respeto…?* el trato respetuoso desde servicios de salud y desde carabineros. Estos serán entendidos como proxy de la justicia procesal. El supuesto acá es que el sentir que otros grupos son tratados con respeto desde los servicios públicos está relacionado con el sentir que los procedimientos a partir de los cuales funciona la sociedad son justos. Los indicadores se utilizarán en su nivel de medición original. Segundo, la evaluación de justicia distributiva. Esta será medida a partir de cinco indicadores. Cuatro de ellos se refieren a la percepción de ingresos existentes y justos para distintos grupos (i.e. obreros y empresarios). Con estos se construirá una brecha de justicia a partir del indice propuesto por @Jasso1980, que consiste en el logaritmo natural de la proporción entre la recompensa existente y la recompensa justa. El indica va de -1 a 1, siendo 0 la justicia perfecta, valores positivos una sobre recompensa injusta, y valores negativos una subrecompensa injusta. A diferencia de esta medición indirecta, el indicador restante busca representar de manera directa la evaluación de justicia distributiva. En el caso de las variables independientes sociodemográficas se utilizará un indicador por variable. La ideología política se medirá a partir de una escala de cero a diez, siendo cero izquierda, cinco centro y diez derecha. El nivel socioeconómico se estudirá a partir de los ingresos en valores continuos. El sexo a partir de la dicotomía hombre-mujer. Todas las variables sociodemográficas se trabajarán en sus medidas originales.
+
+```{r include=FALSE}
+cap2 <- "Variables independientes de justicia."
+# if (knitr::is_html_output()) {tb <- table_nums("tb",cap)} else {tb <- cap}
+```
+
+```{r table-independientes-just, echo=FALSE}
+tab02 <- read.csv(file = "../input/other/table02.csv",header = 1,sep = ";",encoding = "UTF-8")
+cnames <- c("Concepto","Indicador", "Categorías de respuesta")
+kable(tab02,table_format,booktabs = T, linesep = "",col.names = cnames, caption = cap1) %>%
+  kable_styling(
+    full_width = T,
+    latex_options = c("hold_position"),
+    position = "center",
+    font_size = 10,
+    bootstrap_options=c("striped", "bordered")) %>%
+  column_spec(column = 1, width = "2 cm", ) %>%
+  column_spec(column = 2,width = "7 cm") %>%
+  column_spec(column = 3,width = "4 cm") %>%
+  collapse_rows(columns = 1:2,valign = "middle")
+```
+
+\begin{center}
+Fuente: elaboración propia.  
+\end{center}
+
+### Controles
+
+Las variables de control corresponden a las variables sociodemográficas típicas que no han sido incluidas en las hipótesis: edad, comuna de residencia y educación. Además, considerando el alza en las protestas masivas durante el año 2019, se incluirá la frecuencia de participación en marchas. Por último, se incluirá la confianza en carabineros y la religión con fines exploratorios.
+
+## Análisis
+Los análisis a realizar se dividen en cuatro partes. Primero, se efectuarán análisis descriptivos para las variables de VCaS y VCoS, evaluando medidas de tendencia central, de dispersión y proporciones. Segundo, se llevarán a cabo análisis bivariados a partir de matrices de correlaciones. Tercero, se utilizarán métodos de regresión lineal múltiple por Mínimos Cuadrados Ordinarios (OLS, por sus siglas en inglés) para evaluar las hipótesis propuestas. Por último, se harán análisis de robustez para probar los modelos elaborados, específicamente: análisis de casos influyentes, de multicolinealidad y de normalidad.
+
+\pagebreak
+
+# Referencias
+
