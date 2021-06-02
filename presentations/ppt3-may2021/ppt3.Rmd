@@ -20,7 +20,7 @@ output:
 ---
 class: center, middle
 
-# _Coloquio de investigación en desigualdad y ciudadanía - 2do Sem 2020_
+# _Coloquio de investigación en desigualdad y ciudadanía - 1er Sem 2021_
 ```{r setup, include=FALSE,eval=TRUE}
 options(htmltools.dir.version = FALSE)
 ```
@@ -38,6 +38,49 @@ BibOptions(check.entries = FALSE,
            dashed = FALSE)
 myBib <- ReadBib("../../input/bib/Violencesf.bib", check = FALSE)
 ```
+
+```{r include=FALSE}
+# Packages
+pacman::p_load(dplyr, sjPlot, ggplot2, stargazer, kableExtra, texreg, psych, psy, nFactors, summarytools, sjlabelled, sjmisc, car, corrplot, polycor, GPArotation, nortest, tseries, lavaan)
+
+# Load data for análysis
+load(file = "../../input/data/df.RData")
+
+# Select vars for 2019
+df_fa_2019 <- df %>% select(jv_carab1_2019, jv_carab2_2019, jv_est_2019, jv_prop1_2019, jv_prop2_2019, jv_prop3_2019) # Var deps
+df_fa_2019_t <- df %>% select(jv_carab1_2019, jv_carab2_2019, jv_est_2019, jv_trabaj_2019, jv_prop1_2019, jv_prop2_2019, jv_prop3_2019)
+
+# Cor matrix
+
+cor_df_fa_2019 =cor(df_fa_2019, use = "complete.obs")
+cor_df_fa_2019_t =cor(df_fa_2019_t, use = "complete.obs")
+
+# EFA by PA
+
+#Modelo 1 factor
+fa_pa.1<- fa(r=df_fa_2019, nfactors = 1, rotate = "oblimin", fm="pa")
+colnames(fa_pa.1$loadings) <- c("JV") #Cambio etiqueta factores
+rownames(fa_pa.1$loadings) <- c("Carab. Represión", "Carab. Desalojo", "Est. Piedras.", "Dano Inmobiliario.", "Dano Transporte.", "Dano Locales") # Cambio etiqueta indicadores
+
+
+# Modelo 2 factores
+fa_pa.2<- fa(r=df_fa_2019, nfactors = 2, rotate = "oblimin", fm="pa")
+colnames(fa_pa.2$loadings) <- c("JV. Cambio.", "JV. Control")
+rownames(fa_pa.2$loadings) <- c("Carab. Represión", "Carab. Desalojo", "Est. Piedras.", "Dano Inmobiliario.", "Dano Transporte.", "Dano Locales")
+
+
+#Modelo 3 factores
+fa_pa.3<- fa(r=df_fa_2019, nfactors = 3, rotate = "oblimin", fm="pa")
+colnames(fa_pa.3$loadings) <- c("JV. Destruccion prop.", "JV Control", "JV. Protesta disruptiva")
+rownames(fa_pa.3$loadings) <- c("Carab. Represión", "Carab. Desalojo", "Est. Piedras.", "Dano Inmobiliario.", "Dano Transporte.", "Dano Locales")
+
+
+fa_pa.3t<- fa(r=df_fa_2019_t, nfactors = 3, rotate = "oblimin", fm="pa")
+colnames(fa_pa.3t$loadings) <- c("JV. Destruccion prop.", "JV. Control", "JV. Protesta disruptiva")
+rownames(fa_pa.3t$loadings) <- c("Carab. Represión", "Carab. Desalojo", "Est. Piedras.", "Trab. Barricada", "Dano Inmobiliario.", "Dano Transporte.", "Dano Locales")
+
+
+```
 ---
 class: inverse, center, middle
 
@@ -47,8 +90,8 @@ class: inverse, center, middle
 2. Problematización, antecedentes y aportes
 3. Hipotésis
 4. Datos, variables y método
-5. Análisis descriptivo
-6. Análisis factorial
+5. Análisis factorial
+6. A discutir
 
 ---
 class: inverse, middle, center
@@ -185,25 +228,41 @@ policial en la Araucanía.
 
 - A fin de responder a las brechas anteriores, podemos partir de uno de los hallazgos basales de esta agenda: los grupos minoritarios (o de menos estatus) tienden a justificar menos la violencia policial y a favorecer más la violencia asociada a la resistencia y al cambio. 
 
-- El argumento propuesto tiene dos partes: 
+- La propuesta tiene dos partes: 
 
   + 1) La relación grupos minoritarios -> justificación de violencia por el cambio se da porque estos grupos experimentan mayores niveles de injusticia. 
 
-  + 2) Con tal de dar el enfoque sociológico, se propone que estas experiencias de injusticia refieren a la distribución de recursos en la sociedad. Es decir, la justificación de la violencia por el cambio social es una respuesta a la experiencia de injusticia generada por la desigualdad de recompensas en la sociedad.
+  + 2) Con tal de dar el enfoque sociológico, se propone que estas experiencias de injusticia refieren a la distribución de recursos en la sociedad. Es decir, **la justificación de la violencia por el cambio social es una respuesta a la experiencia de injusticia generada por la desigualdad de recompensas en la sociedad**.
   
 ---
 # Antecedentes
 ## Justificación propuesta
 
 - **Agenda de desigualdad y violencia política:** 
-  + Teoría de la derivación relativa: Cuando los individuos viven una situación demasiado lejana a la deseada, tienden a ser más propensos a la violencia. `r Cite(myBib, c("Gurr1960"))`
+  + Teoría de la deprivación relativa: Cuando los individuos viven una situación demasiado lejana a la deseada, tienden a ser más propensos a la violencia. `r Cite(myBib, c("Gurr1960"))`
   
   + Las personas que se perciben a sí mismas como desfavorecidas, tienden a apoyar la violencia para generar cambios `r Cite(myBib, c("Rustad2016"))`
   
 - **Teoría de la evaluación de justicia:**
-  + `r Cite(myBib, c("Jasso1980"))` propone medir la experiencia de justicia con la formula de evaluación de justicia (FEJ). Una de las lineas de esta agenda son las consecuencias de esta evaluación, dada la fuerza moral que ejerce.
+  + `r Citet(myBib, c("Jasso1980"))` propone medir la experiencia de justicia con la formula de evaluación de justicia (FEJ). Una de las lineas de esta agenda son las consecuencias de esta evaluación, dada la fuerza moral que ejerce.
+---
+# Antecedentes
+## Justificación propuesta
   
-- **Recordemos, el componente moral de la violencia:** El argumento teórico que relaciona la experiencia de injusticia medida por la FEJ con la justificación de la violencia, es que la FEJ ejerce su fuerza moral ampliando los limites en las que la violencia se justifica.
+- **Recordemos, el componente moral de la violencia:** 
+  + Teoría de la violencia cómo acción situacional: "En última instancia, explicar la acción moral humana como actos de violencia tiene que ver con la comprensión de la interacción entre las reglas morales comunes de conducta y las propias reglas morales de una persona para dar forma a su desarrollo moral y proporcionar bases para sus acciones" morales `r Cite(myBib, c("Wilkstrom2009"))`
+  
+  + Las causas relevantes de los actos de violencia son aquellas condiciones sociales y eventos que modifican las reglas o limites morales de las personas `r Cite(myBib, c("Wilkstrom2009"))`
+  
+---
+# Antecedentes
+## Sintesis propuesta
+
+- Basado en las relaciones que se han planteado en la agenda que relaciona la desigualdad y actos de violencia...
+
+- Y en la fuerza moral que tiene la experiencia de justicia según la teoría de evaluación de justicia...
+
+- **La propuesta teórica que da base al estudio empírico es:** Experimentar injusticia distributiva (medido por la FEJ) modifica las reglas morales de las personas, llevandolas a justificar la violencia por el cambio social.
 
 ---
 # Aportes
@@ -221,23 +280,24 @@ class: inverse, middle, center
 # 3. Hipótesis
 ---
 ## Relaciones directas
-- $H_{1a}$ Individuos que **evalúen más injusticia distributiva** tenderán a justificar más la **violencia por el cambio social**.
+- $H_{1a}$ Individuos que **experimenten más injusticia distributiva** tenderán a justificar más la **violencia por el cambio social**.
 
-- $H_{1b}$ Individuos que **evalúen más injusticia distributiva** tenderán a justificar menos la **violencia por el control social**.
+- $H_{1b}$ Individuos que **experimenten más injusticia distributiva** tenderán a justificar menos la **violencia por el control social**.
 
-## IMediaciones
+## Mediaciones
 
 - $H_{2a}$ La experiencia de injusticia distributiva media la relación entre estatus y justificación de la violencia por el cambio social.
 
-- $H_{2b}$ La experiencia de injusticia distributiva media la relación entre estatus y justificación de la violencia por el cambio social.
+- $H_{2b}$ La experiencia de injusticia distributiva media la relación entre estatus y justificación de la violencia por el control social.
+
+---
 class: inverse, middle, center
 
 # 4. Datos, variables y método
 
 ---
 # Datos
-Estudio Longitudinal Social de Chile (ELSOC) 2016-2019 (4 olas, se verá incluir la 5 de acuerdo a disponibilidad y tiempos).
-
+Estudio Longitudinal Social de Chile (ELSOC) ola 2019.
 ---
 ## Ficha técnica
 
@@ -267,7 +327,6 @@ otras intercaladas entre olas.
 | F5.3. Que Carabineros use la fuerza para reprimir una manifestación pacifica.                                                                 |
 | F5.4. Que Carabineros desaloje a la fuerza a los estudiantes de un liceo en toma.                                                             |
 | F5.7. Que estudiantes tiren piedras a Carabineros en una marcha por la educación del país.|                                                   |
-| F5.8. Que un grupo de personas ataque a un travesti que está ofreciendo servicios sexuales en la calle.                                       |
 | F5.9  Que algunas personas incendien o dañen inmobiliario público (edificios, semáforos, luminaria pública, etc.) para exigir cambios sociales|                             
 | F5.10 Que algunas personas incendien o dañen medios de transporte (metro, microbuses, paraderos) para exigir cambios sociales.                |
 | F5.11 Que algunas personas incendien o dañen negocios y locales comerciales para exigir cambios sociales|                                     |
@@ -284,26 +343,107 @@ otras intercaladas entre olas.
 | -888. No sabe                 |
 | -999. No responde             |
 ---
-# Variables
 ## Independientes
-### De hipótesis
+### Experiencia de justicia: indicadores
+- D03 Quisiéramos saber cuánto cree usted que ganan las personas al mes, después de los descuentos de impuestos, salud, previsión y otros (ingreso líquido), en los siguientes trabajos que le voy a indicar. Aunque Muchas personas no están seguras al respecto, es muy importante que nos dé su visión. ¿Cuánto cree usted que gana al mes…
+
+  + D03_01. El gerente de una gran empresa nacional?
+  + D03_02. Un obrero no calificado de una fábrica?
+  
+- D04 Ahora, pensando en lo que usted cree que las personas en estos trabajos deberían ganar al mes, después de los descuentos de impuestos, salud, previsión y otros (ingreso líquido). ¿Cuánto dinero cree usted que debiera ganar al mes…
+
+  + Idem
 ---
-# Variables
 ## Independientes
-### De control
+### Experiencia de justicia: formula
+
+$\text{Experiencia de injusticia}= ln(\frac{\text{recompensa real}}{\text{recompensa justa}})$
+
+En este caso, siguiendo el tratamiento de  `r Citet(myBib, c("Verwiebe2000"))` la formula se calcula para cada ocupación, y se construye un indicador único a partir de la diferencia de la EFJ de ambos extremos ocupacionales. Esta diferencia se conoce como la brecha de justicia (*Bj*).
+
+$Bj= EFJ_{gerente} - EFJ_{obrero}$
 ---
 # Método
+
+Análisis multivariado, técnica especifica por definir.
 ---
 class: inverse, middle, center
 
-# 5. Análisis descriptivo
+# 5. Análisis factorial
+---
+# Análisis factorial
+## Condiciones para el análisis exploratorio
+
+- Correlaciones entre indicadores no menor a 0.3 ni mayor a 0.9.
+
+- KMO de 0.75
+
+- Determinante mayor a 0.00001, se cumple la condición
+
+- Normalidad multivariada, no se cumple -> Estimación por Principal Axis
+---
+# Análisis factorial
+## Procedimiento
+
+- Scree plot para sugerencia de cantidad de factores de acuerdo a los datos
+
+- Calculo de modelos con 1, 2 y 3 factores basado en nociones teóricas (Principal Axis y rotación oblicua)
+
+- Comparación de cargas factoriales y ajuste de los modelos.
+
+---
+```{r echo=FALSE, fig.align="center"}
+psych::scree(cor_df_fa_2019)
+```
+
+Recomendación según regla de Kaiser: un factor
+
+---
+## Diagramas de cargas factoriales: Modelo 1 factor
+
+```{r echo=FALSE, fig.align="center"}
+fa.diagram(fa_pa.1)
+```
+
+---
+## Diagramas de cargas factoriales: Modelo 2 factores
+
+```{r echo=FALSE, fig.align="center"}
+fa.diagram(fa_pa.2)
+```
+---
+## Diagramas de cargas factoriales: Modelo 3 factores
+
+```{r echo=FALSE, fig.align="center"}
+fa.diagram(fa_pa.3)
+```
+---
+## Diagramas de cargas factoriales: Modelo 3 factores + indicador de trabajo
+
+```{r echo=FALSE, fig.align="center"}
+fa.diagram(fa_pa.3t)
+```
+---
+## Ajuste modelos
+
+|              | Modelo 1F | Modelo 2F | Modelo 3F | Modelo 3F + Indicador Trabajadores |
+|--------------|-----------|-----------|-----------|------------------------------------|
+| Tucker-Lewis | 0.787     | 0.938     | NA        | 0.997                              |
+| RMSEA        | 0.201     | 0.108     | NA        | 0.022                              |
+| RMSR         | 0.14      | 0.02      | 0         | 0                                  |
+| BIC          | 1556.84   | 179.12    | NA        | -15.6                              |
 ---
 class: inverse, middle, center
 
-# 6. Análisis factorial
+# 6. A discutir
 ---
+# A discutir
+
+¿3 o 2 factores? -> Implicancias conceptuales y metodológicas
+---
+
 # Referencias
-```{r, results='asis', echo=FALSE}
+```{r echo=FALSE, warning=FALSE, results='asis'}
 PrintBibliography(myBib)
 ```
 ---
